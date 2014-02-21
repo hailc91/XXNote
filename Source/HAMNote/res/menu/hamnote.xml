@@ -1,9 +1,18 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/note_add"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:showAsAction="always"
+        android:icon="@drawable/note_add_36x36"
+        android:title="@string/note_add"/>
+    
+    <item
+        android:id="@+id/note_delete"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+		android:icon="@drawable/note_delete_36x36"    
+        android:title="@string/note_delete"/>
 
 </menu>

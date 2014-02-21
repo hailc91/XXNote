@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HAMNote</string>
+    <string name="app_name">HAM Note</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    
+    <string name="note_add">New Note</string>
+    <string name="note_delete">Delete Note</string>
+    <string name="font_choose">Choose Font</string>
+    <string name="image_add">Add Image</string>
+    <string name="note_lock">Lock Note</string>
+    <string name="note_timer">Set Timer</string>
+    <string name="note_star">Set Star</string>
 
 </resources>

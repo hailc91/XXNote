@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#FFFFFF" >
+
+    <item
+        android:id="@+id/font"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/font_36x36"
+        android:title="@string/font_choose"/>
+    
+    <item
+        android:id="@+id/image"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+		android:icon="@drawable/image_add_36x36"    
+        android:title="@string/image_add"/>
+    
+    <item
+        android:id="@+id/lock"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/lock_icon_36x36"
+        android:title="@string/note_lock"/>
+    
+    <item
+        android:id="@+id/timer"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+		android:icon="@drawable/timer_icon_36x36"    
+        android:title="@string/note_timer"/>
+    
+    <item
+        android:id="@+id/star"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+		android:icon="@drawable/star_filled_36x36"    
+        android:title="@string/note_star"/>
+
+</menu>

@@ -1,6 +1,8 @@
 package com.ham.activity;
 
-import com.ham.hamnote.R;
+//import com.ham.hamnote.R;
+
+import com.example.hamnote.R;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -18,7 +20,7 @@ public class HAMNoteActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.hamnote, menu);
+        getMenuInflater().inflate(R.menu.detailnote, menu);
         return true;
     }
     
