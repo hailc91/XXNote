@@ -12,5 +12,6 @@
     <string name="note_lock">Lock Note</string>
     <string name="note_timer">Set Timer</string>
     <string name="note_star">Set Star</string>
+    <string name="blank">""</string>
 
 </resources>

@@ -22,6 +22,18 @@ public class DatabaseAdapter {
 	public void Init(){
 		//Insert complete default theme
 		InsertCompleteThemeTbl(new ThemeRecord(33, "bg1.jpg", "Arial", 12));
+		
+		// Use for test only, DELETE these lines later
+		NoteRecord note0 = new NoteRecord(50, "Ngủ trưa", "Ngủ từ 12h tới 22h tối", "Image: link 0", "20140224", 33, 0);
+		NoteRecord note1 = new NoteRecord(51, "Hẹn hò", "Cafe đứng uống, không được ngồi :3", "", "20140220", 1, 0);
+		NoteRecord note2 = new NoteRecord(52, "Đi ngủ", "Không xác định giờ thức giấc", "", "20140223", 2, 1);
+		NoteRecord note3 = new NoteRecord(53, "Về quê", "100km", "", "20140220", 2, 1);
+		NoteRecord note4 = new NoteRecord(54, "Cúp học môn Mo...., gặp girl xinh @@!", "^___^", "", "20140224", 2, 1);
+		InsertToNoteTbl(note0);
+		InsertToNoteTbl(note1);
+		InsertToNoteTbl(note2);		
+		InsertToNoteTbl(note3);
+		InsertToNoteTbl(note4);	
 	}
 	
 	public DatabaseAdapter open() throws SQLException{

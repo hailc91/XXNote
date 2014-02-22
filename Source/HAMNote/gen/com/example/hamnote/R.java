@@ -27,22 +27,25 @@ public final class R {
         public static final int lock_icon_36x36=0x7f020003;
         public static final int locked_icon_36x36=0x7f020004;
         public static final int note_add_36x36=0x7f020005;
-        public static final int note_delete_36x36=0x7f020006;
-        public static final int star_blank_36x36=0x7f020007;
-        public static final int star_filled_36x36=0x7f020008;
-        public static final int template_icon_36x36=0x7f020009;
-        public static final int timer_icon_36x36=0x7f02000a;
-        public static final int timer_set_icon_36x36=0x7f02000b;
+        public static final int note_container_icon_200x100=0x7f020006;
+        public static final int note_delete_36x36=0x7f020007;
+        public static final int star_blank_36x36=0x7f020008;
+        public static final int star_filled_36x36=0x7f020009;
+        public static final int template_icon_36x36=0x7f02000a;
+        public static final int timer_icon_36x36=0x7f02000b;
+        public static final int timer_set_icon_36x36=0x7f02000c;
     }
     public static final class id {
-        public static final int font=0x7f080001;
+        public static final int font=0x7f080002;
         public static final int gridView=0x7f080000;
-        public static final int image=0x7f080002;
-        public static final int lock=0x7f080003;
-        public static final int note_add=0x7f080006;
-        public static final int note_delete=0x7f080007;
-        public static final int star=0x7f080005;
-        public static final int timer=0x7f080004;
+        public static final int image=0x7f080003;
+        public static final int lock=0x7f080004;
+        public static final int note_add=0x7f080008;
+        public static final int note_delete=0x7f080009;
+        public static final int note_num=0x7f080007;
+        public static final int star=0x7f080006;
+        public static final int test_detail=0x7f080001;
+        public static final int timer=0x7f080005;
     }
     public static final class layout {
         public static final int activity_hamnote=0x7f030000;
@@ -55,6 +58,7 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
+        public static final int blank=0x7f05000a;
         public static final int font_choose=0x7f050005;
         public static final int hello_world=0x7f050002;
         public static final int image_add=0x7f050006;
