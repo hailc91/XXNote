@@ -129,7 +129,7 @@ public class DatabaseAdapter {
 		return result;
 	}
 	//Get 1 note record
-	public NoteRecord GetNodeRecord(int ID){
+	public NoteRecord GetNoteRecord(int ID){
 		Cursor c= database.query("NOTETBL", null, "ID=?",new String[]{Integer.toString(ID)} , null, null,null);
 		c.moveToFirst();
 		if(c.isAfterLast() == false){

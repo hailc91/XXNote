@@ -1,7 +1,7 @@
 package com.ham.activity;
 
 
-import java.io.File;
+//import java.io.File;
 //import java.util.ArrayList;
 
 
@@ -9,7 +9,7 @@ import com.example.hamnote.R;
 import com.ham.database.*;
 
 import android.os.Bundle;
-import android.annotation.SuppressLint;
+//import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -23,8 +23,8 @@ import android.widget.TextView;
 
 public class DetailNoteActivity extends Activity {
 
-	@SuppressLint("SdCardPath")
-	private File dbFile=new File("/data/data/com.example.hamnote/databases/NoteDatabase.db");
+	//@SuppressLint("SdCardPath")
+	//private File dbFile=new File("/data/data/com.example.hamnote/databases/NoteDatabase.db");
 	private DatabaseAdapter database = new DatabaseAdapter(this);
 	//private GridView gridView = null;
 	//private ArrayList<NoteRecord> listNote = null;
@@ -79,7 +79,7 @@ public class DetailNoteActivity extends Activity {
     
     private void createDetail()	// display detail content
     {   	
-    	note = database.GetNodeRecord(noteid);
+    	note = database.GetNoteRecord(noteid);
     	TextView tv = (TextView) findViewById(R.id.test_detail);
     	tv.setText(note.CONTENT);
     	//Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
