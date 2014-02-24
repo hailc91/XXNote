@@ -22,14 +22,11 @@ import android.widget.TextView;
 //import android.widget.Toast;
 
 public class DetailNoteActivity extends Activity {
-
-	//@SuppressLint("SdCardPath")
-	//private File dbFile=new File("/data/data/com.example.hamnote/databases/NoteDatabase.db");
 	private DatabaseAdapter database = new DatabaseAdapter(this);
 	//private GridView gridView = null;
 	//private ArrayList<NoteRecord> listNote = null;
 	//private int noteNum = 0;
-	private int noteid;
+	private String noteid;
 	private NoteRecord note = null;
 	
     @Override
@@ -38,7 +35,7 @@ public class DetailNoteActivity extends Activity {
         setContentView(R.layout.detail_hamnote);
         
         Intent i = getIntent();
-        noteid = (int) i.getExtras().getLong("noteid");
+        noteid = (String) i.getExtras().getString("noteid");
         
         database.open();
         

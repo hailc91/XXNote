@@ -29,7 +29,7 @@ public class IconAdapter extends BaseAdapter
 	public NoteRecord getItem(int pos) { return data.get(pos);	}
 	
 	@Override
-	public long getItemId(int pos) { return getItem(pos).ID; }
+	public long getItemId(int pos) { return Long.valueOf(getItem(pos).ID).longValue(); }
 	
 	@Override
 	public View getView(int pos, View convertView, ViewGroup parent)

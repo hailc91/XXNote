@@ -1,7 +1,13 @@
 package com.ham.database;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class NoteRecord {
-	public int ID;
+	public String ID;
 	public String TITLE;
 	public String CONTENT;
 	public String IMAGE;
@@ -9,8 +15,20 @@ public class NoteRecord {
 	public int THEMEID;
 	public int ISIMPORTANT;
 	
-	public NoteRecord(int id, String title, String content, String img,String date ,int theme, int isImportant){
-		this.ID = id;
+	@SuppressLint("SimpleDateFormat")
+	public NoteRecord(String title, String content, String img,String date ,int theme, int isImportant){
+		String timeStamp = new SimpleDateFormat("yymmddhhmmssSSSSSS").format(Calendar.getInstance().getTime());
+		this.ID = timeStamp;
+		Log.d("Value of ID", ID);
+		this.TITLE = title;
+		this.CONTENT = content;
+		this.IMAGE = img;
+		this.DATE = date;
+		this.THEMEID = theme;
+		this.ISIMPORTANT = isImportant;
+	}
+	public NoteRecord(String ID,String title ,String content, String img,String date ,int theme, int isImportant){
+		this.ID = ID;
 		this.TITLE = title;
 		this.CONTENT = content;
 		this.IMAGE = img;

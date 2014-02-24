@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper{
 	//Table Note: Column: ID, TITLE, CONTENT, IMAGE, DATE, THEMEID, ISIMPORTANT
 	private static final String TBL_NOTE = "NOTETBL ";
-	private static final String NOTE_ID ="ID INTEGER PRIMARY KEY NOT NULL";
+	private static final String NOTE_ID ="ID TEXT PRIMARY KEY NOT NULL";
 	private static final String NOTE_TITLE ="TITLE TEXT";
 	private static final String NOTE_CONTENT ="CONTENT TEXT";
 	private static final String NOTE_IMAGE ="IMAGE TEXT";
@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	
 	//Table Important: Column: ID, TIMEALERT, SOUND
 	private static final String TBL_IMPORTANT = "IMPORTANTTBL";
-	private static final String IMPORTANT_ID = "ID INTEGER PRIMARY KEY NOT NULL ";
+	private static final String IMPORTANT_ID = "ID TEXT PRIMARY KEY NOT NULL ";
 	private static final String IMPORTANT_TIMEALERT = "TIMEALERT TEXT ";
 	private static final String IMPORTANT_SOUND = "SOUND TEXT ";
 	private static final String CONSTRAINT2 = "FOREIGN KEY(ID) REFERENCES NOTETBL(ID) ON DELETE CASCADE ";
