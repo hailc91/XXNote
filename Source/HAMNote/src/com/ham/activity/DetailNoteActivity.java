@@ -12,6 +12,7 @@ import android.os.Bundle;
 //import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 /*import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,7 @@ public class DetailNoteActivity extends Activity {
 	//private GridView gridView = null;
 	//private ArrayList<NoteRecord> listNote = null;
 	//private int noteNum = 0;
-	private String noteid;
+	private Long noteid;
 	private NoteRecord note = null;
 	
     @Override
@@ -35,7 +36,8 @@ public class DetailNoteActivity extends Activity {
         setContentView(R.layout.detail_hamnote);
         
         Intent i = getIntent();
-        noteid = (String) i.getExtras().getString("noteid");
+        noteid = (Long) i.getExtras().getLong("noteid");
+        Log.d("ID get", noteid.toString());
         
         database.open();
         
@@ -76,7 +78,7 @@ public class DetailNoteActivity extends Activity {
     
     private void createDetail()	// display detail content
     {   	
-    	note = database.GetNoteRecord(noteid);
+    	note = database.GetNoteRecord(noteid.toString());
     	TextView tv = (TextView) findViewById(R.id.test_detail);
     	tv.setText(note.CONTENT);
     	//Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
