@@ -8,9 +8,54 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".HAMNoteActivity" >
+    tools:context=".DetailNoteActivity" >
+
+    <EditText
+        android:id="@+id/detail_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:inputType="text|textMultiLine"
+        android:maxLength="40"
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/detail_title_remain_character"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/detail_title"
+        android:layout_alignBottom="@+id/detail_title"
+        android:layout_toRightOf="@+id/detail_title"
+        android:text="@string/default_title_remain_character" />
+
+    <EditText
+        android:id="@+id/detail_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/detail_title"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/detail_title"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:inputType="text|textMultiLine" />
+
+    <ImageButton
+        android:id="@+id/detail_saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/detail_content"
+        android:layout_alignTop="@+id/detail_title"
+        android:contentDescription="@string/des_saveButton"
+        android:background="@android:color/transparent"
+        android:onClick="onButtonClicked"
+        android:src="@drawable/save_icon_36x36" />
+
+</RelativeLayout>
+
+<!-- 
+<TextView
         android:id="@+id/test_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,5 +64,4 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/blank" />
-
-</RelativeLayout>
+-->

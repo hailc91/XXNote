@@ -17,7 +17,7 @@ public class NoteRecord {
 	
 	@SuppressLint("SimpleDateFormat")
 	public NoteRecord(String title, String content, String img,String date ,int theme, int isImportant){
-		String timeStamp = new SimpleDateFormat("yymmddhhmmssSSSSSS").format(Calendar.getInstance().getTime());
+		String timeStamp = new SimpleDateFormat("yyMMddhhmmssSSSSSS").format(Calendar.getInstance().getTime());
 		this.ID = timeStamp;
 		Log.d("Value of ID", ID);
 		this.TITLE = title;

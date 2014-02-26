@@ -10,8 +10,13 @@
     <string name="font_choose">Choose Font</string>
     <string name="image_add">Add Image</string>
     <string name="note_lock">Lock Note</string>
+    <string name="note_music">Set Music</string>
     <string name="note_timer">Set Timer</string>
     <string name="note_star">Set Star</string>
-    <string name="blank">""</string>
+    <string name="zero">0</string>
+    <string name="blank"></string>
+    
+    <string name="default_title_remain_character">40</string>
+    <string name="des_saveButton">Save</string>
 
 </resources>

@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#FFFFFF" >
-
-    <item
-        android:id="@+id/font"
-        android:orderInCategory="100"
-        android:showAsAction="always"
-        android:icon="@drawable/font_36x36"
-        android:title="@string/font_choose"/>
+    android:background="#FFFFFF" >    
     
     <item
-        android:id="@+id/image"
+        android:id="@+id/detailmenu_addimage"
         android:orderInCategory="100"
         android:showAsAction="always"
 		android:icon="@drawable/image_add_36x36"    
         android:title="@string/image_add"/>
     
     <item
-        android:id="@+id/lock"
+        android:id="@+id/detailmenu_lock"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/lock_icon_36x36"
+		android:icon="@drawable/lock_icon_grey_36x36"    
         android:title="@string/note_lock"/>
     
     <item
-        android:id="@+id/timer"
+        android:id="@+id/detailmenu_music"
         android:orderInCategory="100"
         android:showAsAction="always"
-		android:icon="@drawable/timer_icon_36x36"    
+        android:icon="@drawable/music_icon_grey_36x36"
+        android:title="@string/note_music"/>
+    
+    <item
+        android:id="@+id/detailmenu_timer"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+		android:icon="@drawable/timer_icon_grey_36x36"    
         android:title="@string/note_timer"/>
     
     <item
-        android:id="@+id/star"
+        android:id="@+id/detailmenu_star"
         android:orderInCategory="100"
         android:showAsAction="always"
-		android:icon="@drawable/star_filled_36x36"    
+		android:icon="@drawable/star_grey_36x36"    
         android:title="@string/note_star"/>
 
 </menu>
+
+<!-- 
+
+<item
+        android:id="@+id/font"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/font_36x36"
+        android:title="@string/font_choose"/>
+        
+ -->

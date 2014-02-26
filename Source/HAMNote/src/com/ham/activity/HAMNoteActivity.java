@@ -28,6 +28,7 @@ public class HAMNoteActivity extends Activity {
 	private GridView gridView = null;
 	private ArrayList<NoteRecord> listNote = null;
 	private int noteNum = 0;
+	private boolean gridViewCalled;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,25 +43,14 @@ public class HAMNoteActivity extends Activity {
 			//database.close();
 		} else {
 			// delete & re-create database - use for testing
-			dbFile.delete();
+			//dbFile.delete();
 			database.open();
-			database.Init();
+			//database.Init();
 			
 		}		
 		
-		createGridView();
-		
-		gridView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				// TODO Auto-generated method stub
-				
-				database.close();
-                Intent i = new Intent(getBaseContext(), DetailNoteActivity.class);
-                i.putExtra("noteid", arg3);
-                startActivity(i);
-			}
-        });
+		gridViewCalled = true;
+		createGridView();	
 		
     }
 
@@ -69,6 +59,13 @@ public class HAMNoteActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.hamnote, menu);
         return true;
+    }
+    
+    @Override
+    protected void onResume()
+    {
+    	super.onResume();
+    	if(!gridViewCalled) { database.open(); createGridView(); }
     }
     
     @Override
@@ -89,7 +86,18 @@ public class HAMNoteActivity extends Activity {
     	gridView = (GridView) findViewById(R.id.gridView);
     	listNote = database.GetListNote();
 		noteNum = listNote.size();
-    	gridView.setAdapter(new IconAdapter(this, listNote));    	
+    	gridView.setAdapter(new IconAdapter(this, listNote));    
+    	
+    	gridView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				database.close();
+				gridViewCalled = false;
+                Intent i = new Intent(getBaseContext(), DetailNoteActivity.class);
+                i.putExtra("noteid", arg3);
+                startActivity(i);
+			}
+        });
     }
     
     @Override
@@ -98,6 +106,6 @@ public class HAMNoteActivity extends Activity {
         MenuItem item = menu.findItem(R.id.note_num);
         item.setTitle(Integer.toString(noteNum));
         return true;
-    }
-    
+    }    
+      
 }
