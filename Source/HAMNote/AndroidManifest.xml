@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -32,6 +32,21 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.ham.activity.HAMNoteActivity" />
     </activity>
+     <activity
+            android:name="com.ham.activity.AlertActivity"
+            android:label="ALert" 
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            >
+            <intent-filter>
+                <action android:name="com.ham.activity.AlertActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.ham.dialog.RestartReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

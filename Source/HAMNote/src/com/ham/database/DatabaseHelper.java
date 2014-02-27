@@ -37,10 +37,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	private static final String IMPORTANT_ID = "ID TEXT PRIMARY KEY NOT NULL ";
 	private static final String IMPORTANT_TIMEALERT = "TIMEALERT TEXT ";
 	private static final String IMPORTANT_SOUND = "SOUND TEXT ";
+	private static final String IMPORTANT_CODE = "CODE INTEGER ";
 	private static final String CONSTRAINT2 = "FOREIGN KEY(ID) REFERENCES NOTETBL(ID) ON DELETE CASCADE ";
 	
 	private static final String CREATE_TBL_IMPORTANT = "CREATE TABLE " + TBL_IMPORTANT + "( "+IMPORTANT_ID + ", "
-			+ IMPORTANT_TIMEALERT + ", " + IMPORTANT_SOUND +", " + CONSTRAINT2 + " )";
+			+ IMPORTANT_TIMEALERT + ", " + IMPORTANT_SOUND +", "+IMPORTANT_CODE+"," + CONSTRAINT2 + " )";
 	
 	
 	public DatabaseHelper(Context context, String name, CursorFactory factory,

@@ -146,6 +146,7 @@ public class DatabaseAdapter {
 		values.put("ID", r.ID);
 		values.put("TIMEALERT", r.TIMEALERT);
 		values.put("SOUND", r.SOUND);
+		values.put("CODE", r.CODE);
 		database.insert("IMPORTANTTBL", null, values);
 	}
 	public void UpdateToImportantTbl(String ID, String colName, String newValue){
@@ -156,14 +157,33 @@ public class DatabaseAdapter {
 	public void DeleteImportantRecord(String ID){
 		database.delete("IMPORTANTTBL", "ID=?", new String[]{ID});
 	}
+	public void DeleteImportantRecordbyCode(int CODE){
+		database.delete("IMPORTANTTBL", "CODE=?", new String[]{Integer.toString(CODE)});
+	}
 	public ImportantRecord GetImportantRecord(String ID){
 		Cursor c= database.query("IMPORTANTTBL", null, "ID=?",new String[]{ID} , null, null,null);
 		c.moveToFirst();
 		if(c.isAfterLast() == false){
-			return new ImportantRecord(c.getString(0),c.getString(1),c.getString(2));
+			return new ImportantRecord(c.getString(0),c.getString(1),c.getString(2),c.getInt(3));
 		}
 		//not safe
 		return null;
+	}
+	public ArrayList<ImportantRecord> GetAllImportant(){
+		ArrayList<ImportantRecord> result = new ArrayList<ImportantRecord>();
+		Cursor c= database.query("IMPORTANTTBL", null, null, null, null, null,null);
+		c.moveToFirst();
+		while(c.isAfterLast() == false){
+			int CODE;
+			String ID, TIME,SOUND;
+			ID = c.getString(0);
+			TIME = c.getString(1);
+			SOUND = c.getString(2);
+			CODE = c.getInt(3);
+			result.add(new ImportantRecord(ID, TIME, SOUND, CODE));
+			c.moveToNext();
+		}
+		return result;
 	}
 	/* End Important table */
 }

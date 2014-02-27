@@ -6,7 +6,10 @@ package com.ham.activity;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Random;
 
 import com.example.hamnote.R;
 import com.ham.database.*;
@@ -15,6 +18,9 @@ import android.os.Bundle;
 import android.annotation.SuppressLint;
 //import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.ham.dialog.DialogHandle;
 /*import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +44,7 @@ public class DetailNoteActivity extends Activity {
 	//private GridView gridView = null;
 	//private ArrayList<NoteRecord> listNote = null;
 	//private int noteNum = 0;
+	Random randomGenerator = new Random();
 	private Long noteid;
 	private EditText content;
 	private EditText title;
@@ -45,7 +53,8 @@ public class DetailNoteActivity extends Activity {
 	private int maxLength_title = 40;
 	private Menu detailMenu;
 	private boolean importantTurnedOn = false;
-	
+	private boolean chooseTimer = false;
+	private  DialogHandle dialogHandle = new DialogHandle(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +140,25 @@ public class DetailNoteActivity extends Activity {
     	
     	//Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
     }
-    
+    private void SetAlert(int ID){
+    	Intent i = new Intent("com.ham.activity.AlertActivity");
+    	i.putExtra("SongID", dialogHandle.getSong());
+    	i.putExtra("CODE", ID);
+		PendingIntent operation = PendingIntent.getActivity(getBaseContext(), ID, i, Intent.FLAG_ACTIVITY_NEW_TASK);
+		AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
+		GregorianCalendar calendar;
+		long alarm_time;
+		if(chooseTimer == true){
+			calendar = new GregorianCalendar(dialogHandle.vYear,dialogHandle.vMonth-1,dialogHandle.vDay, dialogHandle.vHour, dialogHandle.vMinute);
+			alarm_time = calendar.getTimeInMillis();
+		}
+		else{
+			alarm_time = System.currentTimeMillis() + 604800000; //Default 1 week
+		}
+        alarmManager.set(AlarmManager.RTC_WAKEUP  , alarm_time , operation);
+        Toast.makeText(getBaseContext(), dialogHandle.getTime(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "Alarm is set successfully",Toast.LENGTH_SHORT).show();
+    }
     @SuppressLint("SimpleDateFormat")
 	private void saveNote()
     {
@@ -153,6 +180,22 @@ public class DetailNoteActivity extends Activity {
     	NoteRecord nNote = new NoteRecord(nTitle, nContent, nImage, nDate, nThemeID, nIsImportant);
     	
     	database.UpdateToNoteTbl(noteid.toString(), nNote);
+    	//Set if it important
+    	if(importantTurnedOn){
+    		int id = randomGenerator.nextInt(10000);
+    		if(chooseTimer)
+    			database.InsertToImportantTbl(new ImportantRecord(noteid.toString(),dialogHandle.getTime(), Integer.toString(dialogHandle.getSong()),id));
+    		else
+    		{
+    			Calendar cal = Calendar.getInstance();
+    			cal.add(Calendar.DATE, 7);
+    			String time = new SimpleDateFormat("dd/MM/yyyy-hh:mm").format(cal.getTime());
+    			database.InsertToImportantTbl(new ImportantRecord(noteid.toString(),time, Integer.toString(dialogHandle.getSong()),id));
+    		}
+    		SetAlert(id);
+    		chooseTimer = false;
+    		
+    	}
     }
     
     public void onButtonClicked(View v)
@@ -160,6 +203,7 @@ public class DetailNoteActivity extends Activity {
 		if(v.getId() == R.id.detail_saveButton)
 		{
 			saveNote();		
+			
 			Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
 			database.close();
 			this.finish();
@@ -173,8 +217,12 @@ public class DetailNoteActivity extends Activity {
         item.setTitle(Integer.toString(noteNum));*/
         return true;
     }
-    
     @Override
+    protected Dialog onCreateDialog(int id) {
+        return dialogHandle.DialogProcess(id);
+    }
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
  
         switch (item.getItemId()) {
@@ -200,9 +248,12 @@ public class DetailNoteActivity extends Activity {
             break;
             
         case R.id.detailmenu_music:
+        	showDialog(dialogHandle.SONG_DIAGLOG_ID);
             break;
             
         case R.id.detailmenu_timer:
+        	chooseTimer = true;
+        	showDialog(dialogHandle.DATETIME_DIALOG_ID);
             break;
             
         default:
