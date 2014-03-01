@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 import com.example.hamnote.R;
 import com.ham.database.*;
+import com.ham.dialog.DialogHandle;
 
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +31,7 @@ public class HAMNoteActivity extends Activity {
 	private ArrayList<NoteRecord> listNote = null;
 	private int noteNum = 0;
 	private boolean gridViewCalled;
-	
+	private DialogHandle dialogHandle = new DialogHandle(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,8 @@ public class HAMNoteActivity extends Activity {
 		createGridView();	
 		
     }
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
@@ -61,6 +64,9 @@ public class HAMNoteActivity extends Activity {
         	Intent k = new Intent (getBaseContext(),DeleteNoteActivity.class);
         	startActivity(k);
         	return true;
+        case R.id.note_add:
+        	showDialog(dialogHandle.THEME_ID);
+            return true;
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -105,8 +111,9 @@ public class HAMNoteActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				database.close();
 				gridViewCalled = false;
-                Intent i = new Intent(getBaseContext(), DetailNoteActivity.class);
+				Intent i = new Intent(getBaseContext(), DetailNoteActivity.class);
                 i.putExtra("noteid", arg3);
+                i.putExtra("update", 1);
                 startActivity(i);
 			}
         });
@@ -118,6 +125,10 @@ public class HAMNoteActivity extends Activity {
         MenuItem item = menu.findItem(R.id.note_num);
         item.setTitle(Integer.toString(noteNum));
         return true;
-    }    
+    }  
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        return dialogHandle.DialogProcess(id);
+    }
       
 }

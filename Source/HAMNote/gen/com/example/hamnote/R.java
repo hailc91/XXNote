@@ -8,6 +8,11 @@
 package com.example.hamnote;
 
 public final class R {
+    public static final class array {
+        public static final int fontsize=0x7f070002;
+        public static final int fontstyle=0x7f070001;
+        public static final int themestyle=0x7f070000;
+    }
     public static final class attr {
     }
     public static final class dimen {
@@ -21,66 +26,80 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int font_36x36=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int image_add_36x36=0x7f020002;
-        public static final int lock_icon_36x36=0x7f020003;
-        public static final int lock_icon_green_36x36=0x7f020004;
-        public static final int lock_icon_grey_36x36=0x7f020005;
-        public static final int locked_icon_36x36=0x7f020006;
-        public static final int menu_selector=0x7f020007;
-        public static final int music_icon_green_36x36=0x7f020008;
-        public static final int music_icon_grey_36x36=0x7f020009;
-        public static final int note_add_36x36=0x7f02000a;
-        public static final int note_container_icon_200x100=0x7f02000b;
-        public static final int note_delete_36x36=0x7f02000c;
-        public static final int note_important_container_icon_200x100=0x7f02000d;
-        public static final int save_icon_36x36=0x7f02000e;
-        public static final int star_blank_36x36=0x7f02000f;
-        public static final int star_filled_36x36=0x7f020010;
-        public static final int star_grey_36x36=0x7f020011;
-        public static final int star_yellow_36x36=0x7f020012;
-        public static final int template_icon_36x36=0x7f020013;
-        public static final int timer_icon_36x36=0x7f020014;
-        public static final int timer_icon_green_36x36=0x7f020015;
-        public static final int timer_icon_grey_36x36=0x7f020016;
-        public static final int timer_set_icon_36x36=0x7f020017;
+        public static final int autumn=0x7f020000;
+        public static final int font_36x36=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int image_add_36x36=0x7f020003;
+        public static final int lock_icon_36x36=0x7f020004;
+        public static final int lock_icon_green_36x36=0x7f020005;
+        public static final int lock_icon_grey_36x36=0x7f020006;
+        public static final int locked_icon_36x36=0x7f020007;
+        public static final int menu_selector=0x7f020008;
+        public static final int music_icon_green_36x36=0x7f020009;
+        public static final int music_icon_grey_36x36=0x7f02000a;
+        public static final int note_add_36x36=0x7f02000b;
+        public static final int note_container_icon_200x100=0x7f02000c;
+        public static final int note_delete_36x36=0x7f02000d;
+        public static final int note_important_container_icon_200x100=0x7f02000e;
+        public static final int save_icon_36x36=0x7f02000f;
+        public static final int spring=0x7f020010;
+        public static final int star_blank_36x36=0x7f020011;
+        public static final int star_filled_36x36=0x7f020012;
+        public static final int star_grey_36x36=0x7f020013;
+        public static final int star_yellow_36x36=0x7f020014;
+        public static final int summer=0x7f020015;
+        public static final int template_icon_36x36=0x7f020016;
+        public static final int timer_icon_36x36=0x7f020017;
+        public static final int timer_icon_green_36x36=0x7f020018;
+        public static final int timer_icon_grey_36x36=0x7f020019;
+        public static final int timer_set_icon_36x36=0x7f02001a;
+        public static final int winter=0x7f02001b;
     }
     public static final class id {
-        public static final int btnCancel=0x7f090005;
-        public static final int btnDel=0x7f09000d;
-        public static final int btnOK=0x7f090004;
-        public static final int dPicker=0x7f090002;
-        public static final int detail_content=0x7f090009;
-        public static final int detail_gridImage=0x7f09000b;
-        public static final int detail_layout=0x7f090006;
-        public static final int detail_saveButton=0x7f09000a;
-        public static final int detail_title=0x7f090007;
-        public static final int detail_title_remain_character=0x7f090008;
-        public static final int detailmenu_addimage=0x7f09000e;
-        public static final int detailmenu_lock=0x7f09000f;
-        public static final int detailmenu_music=0x7f090010;
-        public static final int detailmenu_star=0x7f090012;
-        public static final int detailmenu_timer=0x7f090011;
-        public static final int gridView=0x7f090000;
-        public static final int image_show=0x7f09000c;
-        public static final int linearLayout1=0x7f090001;
-        public static final int note_about=0x7f090016;
-        public static final int note_add=0x7f090014;
-        public static final int note_delete=0x7f090015;
-        public static final int note_num=0x7f090013;
-        public static final int tPicker=0x7f090003;
+        public static final int ChooseFont=0x7f0a0005;
+        public static final int ChooseSize=0x7f0a0007;
+        public static final int ChooseTheme=0x7f0a0003;
+        public static final int btnCancel=0x7f0a000e;
+        public static final int btnCancel1=0x7f0a0009;
+        public static final int btnCreate=0x7f0a0008;
+        public static final int btnDel=0x7f0a0016;
+        public static final int btnOK=0x7f0a000d;
+        public static final int dPicker=0x7f0a000b;
+        public static final int detail_content=0x7f0a0012;
+        public static final int detail_gridImage=0x7f0a0014;
+        public static final int detail_layout=0x7f0a000f;
+        public static final int detail_saveButton=0x7f0a0013;
+        public static final int detail_title=0x7f0a0010;
+        public static final int detail_title_remain_character=0x7f0a0011;
+        public static final int detailmenu_addimage=0x7f0a0017;
+        public static final int detailmenu_lock=0x7f0a0018;
+        public static final int detailmenu_music=0x7f0a0019;
+        public static final int detailmenu_star=0x7f0a001b;
+        public static final int detailmenu_timer=0x7f0a001a;
+        public static final int gridView=0x7f0a0000;
+        public static final int image_show=0x7f0a0015;
+        public static final int layout=0x7f0a0001;
+        public static final int lb1=0x7f0a0002;
+        public static final int lb2=0x7f0a0004;
+        public static final int lb3=0x7f0a0006;
+        public static final int linearLayout1=0x7f0a000a;
+        public static final int note_about=0x7f0a001f;
+        public static final int note_add=0x7f0a001d;
+        public static final int note_delete=0x7f0a001e;
+        public static final int note_num=0x7f0a001c;
+        public static final int tPicker=0x7f0a000c;
     }
     public static final class layout {
         public static final int activity_hamnote=0x7f030000;
-        public static final int datetimedialog=0x7f030001;
-        public static final int detail_hamnote=0x7f030002;
-        public static final int imageshow=0x7f030003;
-        public static final int testdeletenote=0x7f030004;
+        public static final int choosethemedialog=0x7f030001;
+        public static final int datetimedialog=0x7f030002;
+        public static final int detail_hamnote=0x7f030003;
+        public static final int imageshow=0x7f030004;
+        public static final int testdeletenote=0x7f030005;
     }
     public static final class menu {
-        public static final int detailnote=0x7f080000;
-        public static final int hamnote=0x7f080001;
+        public static final int detailnote=0x7f090000;
+        public static final int hamnote=0x7f090001;
     }
     public static final class raw {
         public static final int beautifulinwhite=0x7f040000;
@@ -111,8 +130,8 @@ public final class R {
         public static final int zero=0x7f06000b;
     }
     public static final class style {
-        public static final int ActionBar=0x7f070002;
-        public static final int ActionBarWithoutTitle=0x7f070004;
+        public static final int ActionBar=0x7f080002;
+        public static final int ActionBarWithoutTitle=0x7f080004;
         /** 
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
@@ -125,8 +144,8 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
-        public static final int AppTheme=0x7f070001;
-        public static final int AppThemeWithoutActionBarTitle=0x7f070003;
+        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppTheme=0x7f080001;
+        public static final int AppThemeWithoutActionBarTitle=0x7f080003;
     }
 }

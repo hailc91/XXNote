@@ -24,7 +24,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -37,6 +39,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.ham.dialog.DialogHandle;
 import android.widget.TextView;
@@ -64,9 +67,15 @@ public class DetailNoteActivity extends Activity {
 	private int screenHeight;
 	private String deletedImage = "";
 	
+	private int isUpdate = 0;
+	private String themeStyle ="", fontStyle="";
+	private int fontSize = 22;
+	private RelativeLayout layout;
+	
 	private static int RESULT_LOAD_IMAGE = 1;
 	
-    @Override
+    @SuppressLint("NewApi")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_hamnote);
@@ -75,6 +84,7 @@ public class DetailNoteActivity extends Activity {
         title = (EditText) findViewById(R.id.detail_title);
         titleRemain = (TextView) findViewById(R.id.detail_title_remain_character);
         grid = (GridView) findViewById(R.id.detail_gridImage);
+        layout = (RelativeLayout)findViewById(R.id.detail_layout);
         
         // Get screen size
 		Display display = getWindowManager().getDefaultDisplay();
@@ -84,9 +94,19 @@ public class DetailNoteActivity extends Activity {
 		screenHeight = size.y;
         
         
-        Intent i = getIntent();
-        if(noteid==null) noteid = (Long) i.getExtras().getLong("noteid");
-        
+		Intent i = getIntent();
+        isUpdate = (Integer)i.getExtras().getInt("update");
+        if(isUpdate==1){
+        	noteid = (Long) i.getExtras().getLong("noteid");
+        }
+        else
+        {
+        	themeStyle = (String)i.getExtras().getString("themestyle");
+        	fontStyle = (String)i.getExtras().getString("fontstyle");
+        	fontSize = (Integer)i.getExtras().getInt("fontsize");
+        	
+        	
+        }
         database.open();
         
 		createDetail();		
@@ -122,16 +142,64 @@ public class DetailNoteActivity extends Activity {
     	database.close();
     }
     
+    private void InitGui(){
+    	//Declare font
+    	Typeface tf1 = Typeface.createFromAsset(getAssets(),"fonts/valentina.ttf");
+    	Typeface tf2 = Typeface.createFromAsset(getAssets(),"fonts/cariardreams.ttf");
+    	Typeface tf3 = Typeface.createFromAsset(getAssets(),"fonts/optimaregular.ttf");
+    	
+    	content.setBackgroundColor(Color.WHITE);
+    	content.getBackground().setAlpha(100);
+    	title.setBackgroundColor(Color.WHITE);
+    	title.getBackground().setAlpha(90);
+    	//Layout
+    	if(themeStyle.equals("Spring")){
+    		layout.setBackgroundResource(R.drawable.spring);
+    	}
+    	else if(themeStyle.equals("Summer")){
+    		layout.setBackgroundResource(R.drawable.summer);
+    	}
+    	else if(themeStyle.equals("Autumn")){
+    		layout.setBackgroundResource(R.drawable.autumn);
+    	}
+    	else{
+    		layout.setBackgroundResource(R.drawable.winter);
+    	}
+    	
+    	//Font style
+    	if(fontStyle.equals("Valentina font")){
+    		title.setTypeface(tf1,Typeface.BOLD);
+    		content.setTypeface(tf1,Typeface.BOLD_ITALIC);
+    	}
+    	else if(fontStyle.equals("Optima font")){
+    		title.setTypeface(tf3,Typeface.BOLD);
+    		content.setTypeface(tf3,Typeface.BOLD_ITALIC);
+    	}
+    	else{
+    		title.setTypeface(tf2,Typeface.BOLD);
+    		content.setTypeface(tf2,Typeface.BOLD_ITALIC);
+    	}
+    	//Font size
+    	title.setTextSize(fontSize+2);
+    	content.setTextSize(fontSize);
+    }
     private void createDetail()	// display detail content
     {   	
-    	note = database.GetNoteRecord(noteid.toString());
-    	
-    	title.setText(note.TITLE);
-    	content.setText(note.CONTENT);   
-    	imageRaw = note.IMAGE;
-    	importantTurnedOn = (note.ISIMPORTANT>0)?true:false;
-    	
-    	titleRemain.setText(Integer.toString(maxLength_title - note.TITLE.length()));
+    	if(isUpdate == 1){
+	    	note = database.GetNoteRecord(noteid.toString());
+	    	title.setText(note.TITLE);
+	    	content.setText(note.CONTENT);   
+	    	imageRaw = note.IMAGE;
+	    	importantTurnedOn = (note.ISIMPORTANT>0)?true:false;
+	    	titleRemain.setText(Integer.toString(maxLength_title - note.TITLE.length()));
+	    	ThemeRecord theme = database.GetThemeRecord(note.THEMEID);
+	    	if(theme!=null){
+		    	themeStyle = theme.BACKGROUND;
+		    	fontStyle = theme.FONT;
+		    	fontSize = theme.SIZE;
+	    	}
+    	}
+    	InitGui();
     	title.addTextChangedListener(new TextWatcher(){
 			@Override
 			public void afterTextChanged(Editable s) { }
@@ -179,19 +247,27 @@ public class DetailNoteActivity extends Activity {
     	int nIsImportant = 0;
     	
     	String timeStamp = new SimpleDateFormat("yyyyMMddhhmmss").format(Calendar.getInstance().getTime());
-    	
-    	nID = noteid.toString();
+    	if(isUpdate == 1)
+    		nID = noteid.toString();
     	nTitle = title.getText().toString();
     	nContent = content.getText().toString(); 
     	nImage = imageRaw;
     	nDate = timeStamp; 	
-    	nIsImportant = (importantTurnedOn==true)?1:0;    	
+    	nIsImportant = (importantTurnedOn==true)?1:0;   
+    	nThemeID = randomGenerator.nextInt(2000);
     	
     	NoteRecord nNote = new NoteRecord(nID, nTitle, nContent, nImage, nDate, nThemeID, nIsImportant);
-    	
-    	database.UpdateToNoteTbl(noteid.toString(), nNote);
+    	NoteRecord mNote = new NoteRecord(nTitle, nContent, nImage, nDate, nThemeID, nIsImportant);
+    	if(isUpdate==1){
+  		  database.UpdateToNoteTbl(noteid.toString(), nNote);
+  	  	}
+  	  	else
+  	  	{
+  	  		database.InsertToNoteTbl(mNote);
+  	  		database.InsertCompleteThemeTbl(new ThemeRecord(nThemeID, themeStyle, fontStyle, fontSize));
+  	  	}
     	//Set if it important
-    	if(importantTurnedOn){
+    	if(importantTurnedOn && isUpdate == 1){
     		int id = randomGenerator.nextInt(10000);
     		if(chooseTimer)
     			database.InsertToImportantTbl(new ImportantRecord(noteid.toString(),dialogHandle.getTime(), Integer.toString(dialogHandle.getSong()),id));
@@ -203,9 +279,24 @@ public class DetailNoteActivity extends Activity {
     			database.InsertToImportantTbl(new ImportantRecord(noteid.toString(),time, Integer.toString(dialogHandle.getSong()),id));
     		}
     		SetAlert(id);
-    		chooseTimer = false;    		
+    		chooseTimer = false;
+    		
     	}
-    	
+    	if(importantTurnedOn && isUpdate!=1){
+    		int id = randomGenerator.nextInt(10000);
+    		if(chooseTimer)
+    			database.InsertToImportantTbl(new ImportantRecord(mNote.ID,dialogHandle.getTime(), Integer.toString(dialogHandle.getSong()),id));
+    		else
+    		{
+    			Calendar cal = Calendar.getInstance();
+    			cal.add(Calendar.DATE, 7);
+    			String time = new SimpleDateFormat("dd/MM/yyyy-hh:mm").format(cal.getTime());
+    			database.InsertToImportantTbl(new ImportantRecord(mNote.ID,time, Integer.toString(dialogHandle.getSong()),id));
+    		}
+    		SetAlert(id);
+    		chooseTimer = false;
+    		
+    	}
     	// for (String path)
     	
     }
@@ -216,6 +307,8 @@ public class DetailNoteActivity extends Activity {
 			saveNote();			
 			Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
 			database.close();
+			Intent i = new Intent(getBaseContext(),HAMNoteActivity.class);
+			startActivity(i);
 			this.finish();
 		}		
 	}

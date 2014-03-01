@@ -23,7 +23,7 @@ public class DatabaseAdapter {
 	}
 	public void Init(){
 		//Insert complete default theme
-		InsertCompleteThemeTbl(new ThemeRecord(33, "bg1.jpg", "Arial", 12));
+		//InsertCompleteThemeTbl(new ThemeRecord(33, "bg1.jpg", "Arial", 12));
 		
 		// Use for test only, DELETE these lines later
 		NoteRecord note0 = new NoteRecord("1", "Ngủ trưa", "Ngủ từ 12h tới 22h tối", "", "20140224", 33, 0);

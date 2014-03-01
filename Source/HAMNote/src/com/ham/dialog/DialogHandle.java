@@ -4,19 +4,25 @@ package com.ham.dialog;
 import java.util.Calendar;
 
 import com.example.hamnote.R;
+import com.ham.activity.DetailNoteActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 
 
@@ -24,6 +30,7 @@ public class DialogHandle {
 	public final int DATETIME_DIALOG_ID = 0;
 	public final int SONG_DIAGLOG_ID = 1;
 	public final int IMAGE_DIAGLOG_ID = 2;
+	public final int THEME_ID = 3;
 	public Bitmap BITMAP_IMAGE;
 	private Dialog dialog;
 	
@@ -31,6 +38,10 @@ public class DialogHandle {
 	Calendar c = Calendar.getInstance();
 	public int vYear, vMonth, vDay;
 	public int vHour, vMinute;
+	public String themeStyle;
+	public String fontStyle;
+	public int fontSize;
+	public boolean isOk = false;
 	private final CharSequence[] listSong = {"Beautiful in white","Because you live","Chờ mưa mang em về"
 			,"Em của ngày hôm qua","Song for love","What are words"};
 	private int songName;
@@ -134,7 +145,96 @@ public class DialogHandle {
 				}
 			});
 			return builder.create();
+		case THEME_ID:
+			Button btnCreate;
+			Button btnCancel1;
+			final Spinner themeSpinner;
+			Spinner fontStyleSpinner;
+			Spinner fontSizeSpinner;
 			
+			dialog = new Dialog(context);
+			dialog.setTitle("Setting your theme");
+			dialog.setContentView(R.layout.choosethemedialog);
+			btnCreate =(Button)dialog.findViewById(R.id.btnCreate);
+			themeSpinner = (Spinner)dialog.findViewById(R.id.ChooseTheme);
+			fontStyleSpinner = (Spinner)dialog.findViewById(R.id.ChooseFont);
+			fontSizeSpinner = (Spinner)dialog.findViewById(R.id.ChooseSize);
+			btnCreate.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Log.d("Get string", themeStyle+" "+fontStyle+" "+fontSize);
+					dialog.dismiss();
+					Intent i = new Intent(context, DetailNoteActivity.class);
+		            i.putExtra("update", Long.valueOf(0));
+		            i.putExtra("themestyle", themeStyle);
+		            i.putExtra("fontstyle", fontStyle);
+		            i.putExtra("fontsize", fontSize);
+		            context.startActivity(i);
+				}
+			});
+			btnCancel1 = (Button) dialog.findViewById(R.id.btnCancel1);
+			btnCancel1.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+					
+				}
+			});
+			
+			themeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int pos, long id) {
+					// TODO Auto-generated method stub
+					themeStyle = parent.getItemAtPosition(pos).toString();
+					
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					themeStyle = parent.getItemAtPosition(0).toString();
+				}
+			});
+			
+			fontStyleSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int pos, long id) {
+					// TODO Auto-generated method stub
+					fontStyle = parent.getItemAtPosition(pos).toString();
+					
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					fontStyle = parent.getItemAtPosition(0).toString();
+				}
+			});
+			
+			fontSizeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int pos, long id) {
+					// TODO Auto-generated method stub
+					fontSize = Integer.valueOf(parent.getItemAtPosition(pos).toString());
+					
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// TODO Auto-generated method stub
+					fontSize = Integer.valueOf(parent.getItemAtPosition(0).toString());
+				}
+			});
+			return dialog;
 		case IMAGE_DIAGLOG_ID:
 			dialog = new Dialog(context);
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

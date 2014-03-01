@@ -22,4 +22,20 @@
     <string name="des_saveButton">Save</string>
     <string name="lblBtnDel">Delete Selected Notes</string>
 
+     <string-array name="themestyle">
+        <item>Spring</item>
+        <item>Summer</item>
+        <item>Autumn</item>
+        <item>Winter</item>
+    </string-array>
+    <string-array name="fontstyle">
+        <item>Valentina font</item>
+        <item>Optima font</item>
+        <item>Caviar Dreams font</item>
+    </string-array>
+     <string-array name="fontsize">
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+    </string-array>
 </resources>
