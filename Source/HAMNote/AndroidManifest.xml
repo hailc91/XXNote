@@ -52,6 +52,14 @@
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="com.ham.activity.DetailNoteActivity" />
     	</activity>
+    	<activity
+            android:name="com.ham.activity.DeleteNoteActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.ham.activity.HAMNoteActivity" >
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.ham.activity.HAMNoteActivity" />
+   		 </activity>
 	    
     	<receiver android:name="com.ham.dialog.RestartReceiver" >
             <intent-filter>

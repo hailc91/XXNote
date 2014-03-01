@@ -20,5 +20,6 @@
     
     <string name="default_title_remain_character">40</string>
     <string name="des_saveButton">Save</string>
+    <string name="lblBtnDel">Delete Selected Notes</string>
 
 </resources>

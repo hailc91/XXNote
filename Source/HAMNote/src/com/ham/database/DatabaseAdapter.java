@@ -107,8 +107,8 @@ public class DatabaseAdapter {
 		database.update("NOTETBL", values, "ID=?", new String[]{ID});
 	}
 	//Delete by ID
-	public void DeleteRecordFromNoteTbl(String ID){
-		database.delete("NOTETBL", "ID=?", new String[]{ID});
+	public int DeleteRecordFromNoteTbl(String ID){
+		return database.delete("NOTETBL", "ID=?", new String[]{ID});
 	}
 	//Get all from Note and store to list SORT by date
 	public ArrayList<NoteRecord> GetListNote(){

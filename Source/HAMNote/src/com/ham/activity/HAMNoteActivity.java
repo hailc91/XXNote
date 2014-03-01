@@ -53,6 +53,18 @@ public class HAMNoteActivity extends Activity {
 		createGridView();	
 		
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.note_delete:
+        	Intent k = new Intent (getBaseContext(),DeleteNoteActivity.class);
+        	startActivity(k);
+        	return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
