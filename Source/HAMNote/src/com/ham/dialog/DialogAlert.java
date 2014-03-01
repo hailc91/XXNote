@@ -13,10 +13,11 @@ import android.view.WindowManager.LayoutParams;
 
 public class DialogAlert extends DialogFragment{
 	//Context context;
+	
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	public Dialog onCreateDialog(Bundle savedInstanceState) {		
 		int songID = getArguments().getInt("SongID");
-		final int CODE = getArguments().getInt("CODE");
+		final int CODE = getArguments().getInt("CODE");		
 		final  MediaPlayer player;
 		switch(songID){
 			case 0:
@@ -44,7 +45,7 @@ public class DialogAlert extends DialogFragment{
 			player.setVolume(60, 60);
 			player.start();
 		getActivity().getWindow().addFlags(LayoutParams.FLAG_TURN_SCREEN_ON | LayoutParams.FLAG_DISMISS_KEYGUARD);
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());	
 		builder.setTitle("HAM Note");
 		builder.setMessage("You have important note!");
 		builder.setPositiveButton("OK", new OnClickListener() {
@@ -52,17 +53,18 @@ public class DialogAlert extends DialogFragment{
 			public void onClick(DialogInterface dialog, int which) {
 				player.stop();
 				player.release();
-				//Delete Important after alert
-				DatabaseAdapter database  = new DatabaseAdapter(getActivity());
+				//Delete Important after alert	
+				DatabaseAdapter database = new DatabaseAdapter(getActivity());
 				database.open();
 				database.DeleteImportantRecordbyCode(CODE);
 				database.close();
 				getActivity().finish();
-			}						
+			}			
 		});
 		
 		return builder.create();
 	}
+	
 	@Override
 	public void onDestroy() {		
 		super.onDestroy();

@@ -43,9 +43,9 @@ public class HAMNoteActivity extends Activity {
 			//database.close();
 		} else {
 			// delete & re-create database - use for testing
-			dbFile.delete();
+			//dbFile.delete();
 			database.open();
-			database.Init();
+			//database.Init();
 			
 		}		
 		

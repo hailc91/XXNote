@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"    
@@ -8,6 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".DetailNoteActivity" >
 
     <EditText
@@ -17,7 +20,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:ems="10"
-        android:inputType="text|textMultiLine"
+        android:inputType="text|textMultiLine|textNoSuggestions"
         android:maxLength="40"
         android:textStyle="bold" />
 
@@ -39,7 +42,9 @@
         android:layout_below="@+id/detail_title"
         android:layout_marginTop="15dp"
         android:ems="10"
-        android:inputType="text|textMultiLine" />
+        android:inputType="text|textMultiLine|textNoSuggestions"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <ImageButton
         android:id="@+id/detail_saveButton"
@@ -51,6 +56,23 @@
         android:background="@android:color/transparent"
         android:onClick="onButtonClicked"
         android:src="@drawable/save_icon_36x36" />
+
+    <GridView
+        android:id="@+id/detail_gridImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/detail_content"
+        android:layout_below="@+id/detail_content"
+        android:layout_marginTop="10dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:horizontalSpacing="3dp"
+        android:longClickable="true"
+        android:numColumns="3"
+        android:verticalSpacing="3dp" >
+
+    </GridView>
 
 </RelativeLayout>
 

@@ -1,12 +1,9 @@
 package com.ham.activity;
 
-
-//import java.io.File;
-//import java.util.ArrayList;
-
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
@@ -14,38 +11,41 @@ import java.util.Random;
 import com.example.hamnote.R;
 import com.ham.database.*;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.annotation.SuppressLint;
-//import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.Toast;
 import com.ham.dialog.DialogHandle;
-/*import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;*/
 import android.widget.TextView;
-//import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class DetailNoteActivity extends Activity {
 	private DatabaseAdapter database = new DatabaseAdapter(this);
-	//private GridView gridView = null;
-	//private ArrayList<NoteRecord> listNote = null;
-	//private int noteNum = 0;
 	Random randomGenerator = new Random();
-	private Long noteid;
+	private Long noteid = null;
 	private EditText content;
 	private EditText title;
 	private TextView titleRemain;
@@ -55,6 +55,17 @@ public class DetailNoteActivity extends Activity {
 	private boolean importantTurnedOn = false;
 	private boolean chooseTimer = false;
 	private  DialogHandle dialogHandle = new DialogHandle(this);
+	private String[] imagePath;
+	// contain current images path
+	private static String imageRaw = "";
+	private GridView grid;
+	private boolean addImageCalled;
+	private int screenWidth;
+	private int screenHeight;
+	private String deletedImage = "";
+	
+	private static int RESULT_LOAD_IMAGE = 1;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,27 +74,24 @@ public class DetailNoteActivity extends Activity {
         content = (EditText) findViewById(R.id.detail_content);
         title = (EditText) findViewById(R.id.detail_title);
         titleRemain = (TextView) findViewById(R.id.detail_title_remain_character);
+        grid = (GridView) findViewById(R.id.detail_gridImage);
+        
+        // Get screen size
+		Display display = getWindowManager().getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		screenWidth = size.x;
+		screenHeight = size.y;
         
         
         Intent i = getIntent();
-        noteid = (Long) i.getExtras().getLong("noteid");
-        Log.d("ID get", noteid.toString());
+        if(noteid==null) noteid = (Long) i.getExtras().getLong("noteid");
         
         database.open();
         
-		createDetail();
-		
-		/*
-		gridView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				// TODO Auto-generated method stub
-				
-                Intent i = new Intent(getApplicationContext(), HAMNoteActivity.class);
-                i.putExtra("note", arg2);
-                startActivity(i);
-			}
-        });*/		
+		createDetail();		
+		addImageCalled = false;
+		createImageGrid();
     }
 
     @Override
@@ -95,51 +103,48 @@ public class DetailNoteActivity extends Activity {
     }
     
     @Override
+    protected void onStart()
+    {
+    	super.onStart();    	
+    }
+    
+    @Override
+    protected void onResume()
+    {
+    	super.onResume();
+    	if(addImageCalled) { database.open(); createImageGrid(); }
+    }
+    
+    @Override
     public void onStop()
     {
     	super.onStop();
     	database.close();
     }
     
-    /*@Override
-    public void onDestroy()
-    {
-    	database.close();
-    }*/
-    
     private void createDetail()	// display detail content
     {   	
     	note = database.GetNoteRecord(noteid.toString());
     	
     	title.setText(note.TITLE);
-    	content.setText(note.CONTENT);    	
+    	content.setText(note.CONTENT);   
+    	imageRaw = note.IMAGE;
+    	importantTurnedOn = (note.ISIMPORTANT>0)?true:false;
     	
     	titleRemain.setText(Integer.toString(maxLength_title - note.TITLE.length()));
     	title.addTextChangedListener(new TextWatcher(){
-
 			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void afterTextChanged(Editable s) { }
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public void onTextChanged(CharSequence s, int start, int before, int count)
+			{
 				titleRemain.setText(Integer.toString(maxLength_title - title.getText().toString().length()));				
-			}
-    		
-    	});
-    	
-    	//Toast.makeText(this, "Ok", Toast.LENGTH_SHORT).show();
+			}    		
+    	});    	    	
     }
+    
     private void SetAlert(int ID){
     	Intent i = new Intent("com.ham.activity.AlertActivity");
     	i.putExtra("SongID", dialogHandle.getSong());
@@ -151,19 +156,21 @@ public class DetailNoteActivity extends Activity {
 		if(chooseTimer == true){
 			calendar = new GregorianCalendar(dialogHandle.vYear,dialogHandle.vMonth-1,dialogHandle.vDay, dialogHandle.vHour, dialogHandle.vMinute);
 			alarm_time = calendar.getTimeInMillis();
+			Toast.makeText(getBaseContext(), dialogHandle.getTime(),Toast.LENGTH_SHORT).show();
 		}
 		else{
 			alarm_time = System.currentTimeMillis() + 604800000; //Default 1 week
 		}
         alarmManager.set(AlarmManager.RTC_WAKEUP  , alarm_time , operation);
-        Toast.makeText(getBaseContext(), dialogHandle.getTime(),Toast.LENGTH_SHORT).show();
-        Toast.makeText(getBaseContext(), "Alarm is set successfully",Toast.LENGTH_SHORT).show();
+        
+        // Toast.makeText(getBaseContext(), "Alarm is set successfully",Toast.LENGTH_SHORT).show();
     }
+    
     @SuppressLint("SimpleDateFormat")
 	private void saveNote()
     {
-    	// update current note info
-    	//String nID = "";
+    	// retrieve current note info
+    	String nID = "";
     	String nTitle = "";
     	String nContent = "";
     	String nImage = "";
@@ -171,13 +178,16 @@ public class DetailNoteActivity extends Activity {
     	int nThemeID = 0;
     	int nIsImportant = 0;
     	
-    	String timeStamp = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+    	String timeStamp = new SimpleDateFormat("yyyyMMddhhmmss").format(Calendar.getInstance().getTime());
     	
+    	nID = noteid.toString();
     	nTitle = title.getText().toString();
-    	nContent = content.getText().toString();    	
+    	nContent = content.getText().toString(); 
+    	nImage = imageRaw;
     	nDate = timeStamp; 	
+    	nIsImportant = (importantTurnedOn==true)?1:0;    	
     	
-    	NoteRecord nNote = new NoteRecord(nTitle, nContent, nImage, nDate, nThemeID, nIsImportant);
+    	NoteRecord nNote = new NoteRecord(nID, nTitle, nContent, nImage, nDate, nThemeID, nIsImportant);
     	
     	database.UpdateToNoteTbl(noteid.toString(), nNote);
     	//Set if it important
@@ -193,34 +203,39 @@ public class DetailNoteActivity extends Activity {
     			database.InsertToImportantTbl(new ImportantRecord(noteid.toString(),time, Integer.toString(dialogHandle.getSong()),id));
     		}
     		SetAlert(id);
-    		chooseTimer = false;
-    		
+    		chooseTimer = false;    		
     	}
+    	
+    	// for (String path)
+    	
     }
     
     public void onButtonClicked(View v)
 	{
-		if(v.getId() == R.id.detail_saveButton)
-		{
-			saveNote();		
-			
+		if(v.getId() == R.id.detail_saveButton){
+			saveNote();			
 			Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
 			database.close();
 			this.finish();
-		}
+		}		
 	}
     
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        /*MenuItem item = menu.findItem(R.id.note_num);
-        item.setTitle(Integer.toString(noteNum));*/
+        if(importantTurnedOn) {
+        	menu.findItem(R.id.detailmenu_star).setIcon(R.drawable.star_yellow_36x36);
+        	menu.findItem(R.id.detailmenu_timer).setIcon(R.drawable.timer_icon_green_36x36);
+        	menu.findItem(R.id.detailmenu_music).setIcon(R.drawable.music_icon_green_36x36);
+        }
         return true;
     }
+    
     @Override
     protected Dialog onCreateDialog(int id) {
         return dialogHandle.DialogProcess(id);
-    }
+    }    
+    
     @SuppressWarnings("deprecation")
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -248,17 +263,154 @@ public class DetailNoteActivity extends Activity {
             break;
             
         case R.id.detailmenu_music:
-        	showDialog(dialogHandle.SONG_DIAGLOG_ID);
+        	if(importantTurnedOn) showDialog(dialogHandle.SONG_DIAGLOG_ID);
             break;
             
-        case R.id.detailmenu_timer:
-        	chooseTimer = true;
-        	showDialog(dialogHandle.DATETIME_DIALOG_ID);
+        case R.id.detailmenu_timer:        	
+        	if(importantTurnedOn) {
+        		chooseTimer = true;
+        		showDialog(dialogHandle.DATETIME_DIALOG_ID);
+        	}
             break;
+            
+        case R.id.detailmenu_lock:
+        	Toast.makeText(getBaseContext(), "Please buy PRO version to use LOCK function",Toast.LENGTH_SHORT).show();
+            break;
+            
+        case R.id.detailmenu_addimage:
+        	addImageCalled = true;
+        	database.close();
+        	Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        	startActivityForResult(i, RESULT_LOAD_IMAGE);
+        	break;
             
         default:
+        	database.close();
+			this.finish();
         	break;        
         }
         return true;
     }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+         
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+ 
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+ 
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            
+            if(imageRaw.length()==0) { imageRaw = picturePath; }
+            else { imageRaw = imageRaw + ":" + picturePath; }
+         
+        }     
+    }
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    	//menu.setHeaderTitle("Context Menu");  
+    	menu.add(0, v.getId(), 0, "Remove");   
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {  
+    	if(item.getTitle() == "Remove")
+    	{
+    		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+    		imageRaw = imageRaw.replace(imagePath[info.position], "");
+    		if(imageRaw.startsWith(":")){ imageRaw = imageRaw.substring(1); }
+    		else if(imageRaw.endsWith(":")) { imageRaw = imageRaw.substring(0, imageRaw.length()-1); }
+    		else { imageRaw = imageRaw.replace("::", ":"); }    
+    		deletedImage = imagePath[info.position];
+    		createImageGrid();
+    	}  
+    	return true;
+    }
+    
+    private void createImageGrid()
+    {
+    	if(imageRaw.length()>0)
+    	{
+    		imagePath = imageRaw.split(":");    		
+    		
+    		String contextFilesPath = this.getFilesDir().getPath();
+    		for(int i=0; i<imagePath.length; i++)
+    		{
+    			if(!imagePath[i].startsWith(contextFilesPath)) // not in internal store
+    			{
+    				//Bitmap resizedImage = resizeImage(imagePath[i], screenWidth, screenHeight);
+    				String newPath = writeFileToInternalStorage(this, imagePath[i], screenWidth, screenHeight);
+    				if(newPath.length()>0) imagePath[i] = newPath;
+    			}    			
+    		}    	
+    		
+    		imageRaw = imagePath[0];
+    		if(imagePath.length>1){
+    			for(int j=1; j<imagePath.length; j++) imageRaw = imageRaw + ":" + imagePath[j];
+    		}
+    		
+    		grid.setAdapter(new ImageAdapter(this, imagePath));
+    		this.registerForContextMenu(grid);
+    		grid.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+    			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {  				
+    				String img = imagePath[(int)arg3];	    				
+    				final BitmapFactory.Options options = new BitmapFactory.Options();
+    				options.inSampleSize = 1;    				    				
+    				// Create dialog
+    				dialogHandle.setImage(BitmapFactory.decodeFile(img, options));
+    				dialogHandle.DialogProcess(dialogHandle.IMAGE_DIAGLOG_ID).show();    				
+    			}
+            });
+    		
+    		// delete image from internal storage
+    		if(deletedImage!="") {
+    			deletedImage = deletedImage.replace(contextFilesPath + "/", "");
+    			this.deleteFile(deletedImage);
+    		}
+    		deletedImage = "";
+    	}
+    	
+    }
+    
+    private String writeFileToInternalStorage(Context context, String path, int w, int h)
+    {
+		try {
+			int inSampleSize = 1;
+	    	// First decode with inJustDecodeBounds=true to check dimensions
+		    final BitmapFactory.Options options = new BitmapFactory.Options();
+		    options.inJustDecodeBounds = true;
+		    BitmapFactory.decodeFile(path, options);
+		    int bitmapHeight = options.outHeight;
+			int bitmapWidth = options.outWidth;
+			
+			while(bitmapHeight/(2*inSampleSize)>h && bitmapWidth/(2*inSampleSize)>w)
+			{
+				inSampleSize *= 2;
+			}
+			
+			options.inSampleSize = inSampleSize;
+			options.inJustDecodeBounds = false;
+			String fileName = Long.toString(System.currentTimeMillis()) + ".jpeg";
+			FileOutputStream fos = openFileOutput(fileName, Context.MODE_PRIVATE);
+			Bitmap bm = BitmapFactory.decodeFile(path, options);
+			bm.compress(Bitmap.CompressFormat.JPEG, 30, fos);				
+			File cacheDir = context.getFilesDir();
+			String newpath = cacheDir.getPath() + "/" + fileName;
+			return newpath;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "";
+    }
+    
 }

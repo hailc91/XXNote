@@ -9,16 +9,22 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 
 public class DialogHandle {
 	public final int DATETIME_DIALOG_ID = 0;
 	public final int SONG_DIAGLOG_ID = 1;
+	public final int IMAGE_DIAGLOG_ID = 2;
+	public Bitmap BITMAP_IMAGE;
 	private Dialog dialog;
 	
 	Context context;
@@ -73,6 +79,12 @@ public class DialogHandle {
 		
 		return result;
 	}
+	
+	public void setImage(Bitmap i)
+	{
+		BITMAP_IMAGE = i;
+	}
+	
 	public Dialog DialogProcess(int ID) {
 		switch(ID){
 		case DATETIME_DIALOG_ID:
@@ -122,6 +134,23 @@ public class DialogHandle {
 				}
 			});
 			return builder.create();
+			
+		case IMAGE_DIAGLOG_ID:
+			dialog = new Dialog(context);
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.setContentView(R.layout.imageshow);
+			ImageView image_frame = (ImageView) dialog.findViewById(R.id.image_show);
+			Drawable d = new BitmapDrawable(context.getResources(),BITMAP_IMAGE);
+			//image_frame.setBackground(d);
+			image_frame.setImageDrawable(d);
+			dialog.getWindow().setBackgroundDrawable(null);
+			image_frame.setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+			return dialog;
 		}
 		return null;
 	}

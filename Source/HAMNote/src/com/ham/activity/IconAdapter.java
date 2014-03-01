@@ -4,7 +4,6 @@ import com.example.hamnote.R;
 import java.util.ArrayList;
 import com.ham.database.*;
 
-//import android.R;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,12 +37,12 @@ public class IconAdapter extends BaseAdapter
 		String date = getItem(pos).DATE;
 		String yyyy = date.substring(0, 4);
 		String mm = date.substring(4, 6);
-		String dd = date.substring(6);
-		date = dd + "-" + mm + "-" + yyyy;
+		String dd = date.substring(6, 8);
+		date = dd + "/" + mm + "/" + yyyy;
 		iconNote.setText(date + "\n" + getItem(pos).TITLE);
 		iconNote.setPadding(20, 5, 5, 5);
-		iconNote.setBackgroundResource(R.drawable.note_container_icon_200x100);
-		
+		if(getItem(pos).ISIMPORTANT>0) iconNote.setBackgroundResource(R.drawable.note_important_container_icon_200x100);
+		else iconNote.setBackgroundResource(R.drawable.note_container_icon_200x100);		
 		return iconNote;
 	}
 

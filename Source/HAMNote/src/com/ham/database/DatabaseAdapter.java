@@ -1,6 +1,8 @@
 package com.ham.database;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -24,9 +26,9 @@ public class DatabaseAdapter {
 		InsertCompleteThemeTbl(new ThemeRecord(33, "bg1.jpg", "Arial", 12));
 		
 		// Use for test only, DELETE these lines later
-		NoteRecord note0 = new NoteRecord("1", "Ngủ trưa", "Ngủ từ 12h tới 22h tối", "Image: link 0", "20140224", 33, 0);
+		NoteRecord note0 = new NoteRecord("1", "Ngủ trưa", "Ngủ từ 12h tới 22h tối", "", "20140224", 33, 0);
 		NoteRecord note1 = new NoteRecord("2", "Hẹn hò", "Cafe đứng uống, không được ngồi :3", "", "20140220", 1, 0);
-		NoteRecord note2 = new NoteRecord("3", "Đi ngủ", "Không xác định giờ thức giấc", "", "20140223", 2, 1);
+		NoteRecord note2 = new NoteRecord("3", "Đi ngủ", "Không xác định giờ thức giấc", "", "20140223", 2, 0);
 		NoteRecord note3 = new NoteRecord("4", "Về quê", "100km", "", "20140220", 2, 1);
 		NoteRecord note4 = new NoteRecord("5", "Cúp học môn Mo...., gặp girl xinh @@!", "^___^", "", "20140224", 2, 1);
 		InsertToNoteTbl(note0);
@@ -126,6 +128,7 @@ public class DatabaseAdapter {
 			result.add(new NoteRecord(ID, TITLE, CONTENT, IMAGE, DATE, THEMEID, ISIMPORTANT));
 			c.moveToNext();
 		}
+		Collections.reverse(result);
 		return result;
 	}
 	//Get 1 note record

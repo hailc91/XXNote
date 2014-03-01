@@ -28,46 +28,53 @@ public final class R {
         public static final int lock_icon_green_36x36=0x7f020004;
         public static final int lock_icon_grey_36x36=0x7f020005;
         public static final int locked_icon_36x36=0x7f020006;
-        public static final int music_icon_green_36x36=0x7f020007;
-        public static final int music_icon_grey_36x36=0x7f020008;
-        public static final int note_add_36x36=0x7f020009;
-        public static final int note_container_icon_200x100=0x7f02000a;
-        public static final int note_delete_36x36=0x7f02000b;
-        public static final int save_icon_36x36=0x7f02000c;
-        public static final int star_blank_36x36=0x7f02000d;
-        public static final int star_filled_36x36=0x7f02000e;
-        public static final int star_grey_36x36=0x7f02000f;
-        public static final int star_yellow_36x36=0x7f020010;
-        public static final int template_icon_36x36=0x7f020011;
-        public static final int timer_icon_36x36=0x7f020012;
-        public static final int timer_icon_green_36x36=0x7f020013;
-        public static final int timer_icon_grey_36x36=0x7f020014;
-        public static final int timer_set_icon_36x36=0x7f020015;
+        public static final int menu_selector=0x7f020007;
+        public static final int music_icon_green_36x36=0x7f020008;
+        public static final int music_icon_grey_36x36=0x7f020009;
+        public static final int note_add_36x36=0x7f02000a;
+        public static final int note_container_icon_200x100=0x7f02000b;
+        public static final int note_delete_36x36=0x7f02000c;
+        public static final int note_important_container_icon_200x100=0x7f02000d;
+        public static final int save_icon_36x36=0x7f02000e;
+        public static final int star_blank_36x36=0x7f02000f;
+        public static final int star_filled_36x36=0x7f020010;
+        public static final int star_grey_36x36=0x7f020011;
+        public static final int star_yellow_36x36=0x7f020012;
+        public static final int template_icon_36x36=0x7f020013;
+        public static final int timer_icon_36x36=0x7f020014;
+        public static final int timer_icon_green_36x36=0x7f020015;
+        public static final int timer_icon_grey_36x36=0x7f020016;
+        public static final int timer_set_icon_36x36=0x7f020017;
     }
     public static final class id {
         public static final int btnCancel=0x7f090005;
         public static final int btnOK=0x7f090004;
         public static final int dPicker=0x7f090002;
-        public static final int detail_content=0x7f090008;
-        public static final int detail_saveButton=0x7f090009;
-        public static final int detail_title=0x7f090006;
-        public static final int detail_title_remain_character=0x7f090007;
-        public static final int detailmenu_addimage=0x7f09000a;
-        public static final int detailmenu_lock=0x7f09000b;
-        public static final int detailmenu_music=0x7f09000c;
-        public static final int detailmenu_star=0x7f09000e;
-        public static final int detailmenu_timer=0x7f09000d;
+        public static final int detail_content=0x7f090009;
+        public static final int detail_gridImage=0x7f09000b;
+        public static final int detail_layout=0x7f090006;
+        public static final int detail_saveButton=0x7f09000a;
+        public static final int detail_title=0x7f090007;
+        public static final int detail_title_remain_character=0x7f090008;
+        public static final int detailmenu_addimage=0x7f09000d;
+        public static final int detailmenu_lock=0x7f09000e;
+        public static final int detailmenu_music=0x7f09000f;
+        public static final int detailmenu_star=0x7f090011;
+        public static final int detailmenu_timer=0x7f090010;
         public static final int gridView=0x7f090000;
+        public static final int image_show=0x7f09000c;
         public static final int linearLayout1=0x7f090001;
-        public static final int note_add=0x7f090010;
-        public static final int note_delete=0x7f090011;
-        public static final int note_num=0x7f09000f;
+        public static final int note_about=0x7f090015;
+        public static final int note_add=0x7f090013;
+        public static final int note_delete=0x7f090014;
+        public static final int note_num=0x7f090012;
         public static final int tPicker=0x7f090003;
     }
     public static final class layout {
         public static final int activity_hamnote=0x7f030000;
         public static final int datetimedialog=0x7f030001;
         public static final int detail_hamnote=0x7f030002;
+        public static final int imageshow=0x7f030003;
     }
     public static final class menu {
         public static final int detailnote=0x7f080000;
@@ -82,14 +89,16 @@ public final class R {
         public static final int whatarewords=0x7f040005;
     }
     public static final class string {
+        public static final int about=0x7f06000e;
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int blank=0x7f06000c;
-        public static final int default_title_remain_character=0x7f06000d;
-        public static final int des_saveButton=0x7f06000e;
+        public static final int default_title_remain_character=0x7f06000f;
+        public static final int des_saveButton=0x7f060010;
         public static final int font_choose=0x7f060005;
         public static final int hello_world=0x7f060002;
         public static final int image_add=0x7f060006;
+        public static final int image_show=0x7f06000d;
         public static final int note_add=0x7f060003;
         public static final int note_delete=0x7f060004;
         public static final int note_lock=0x7f060007;

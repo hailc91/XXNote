@@ -25,28 +25,40 @@
         </activity>
 
         <activity
-        android:name="com.ham.activity.DetailNoteActivity"
-        android:label="@string/app_name"
-        android:parentActivityName="com.ham.activity.HAMNoteActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.ham.activity.HAMNoteActivity" />
-    </activity>
-     <activity
-            android:name="com.ham.activity.AlertActivity"
-            android:label="ALert" 
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
-            >
-            <intent-filter>
-                <action android:name="com.ham.activity.AlertActivity" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <receiver android:name="com.ham.dialog.RestartReceiver" >
+	        android:name="com.ham.activity.DetailNoteActivity"
+	        android:label="@string/app_name"
+	        android:parentActivityName="com.ham.activity.HAMNoteActivity"
+	        android:windowSoftInputMode="stateHidden" >
+	        <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.ham.activity.HAMNoteActivity" />
+    	</activity>
+    	
+	    <activity
+		    android:name="com.ham.activity.AlertActivity"
+		    android:label="ALert" 
+		    android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+	        <intent-filter>
+		        <action android:name="com.ham.activity.AlertActivity" />
+		        <category android:name="android.intent.category.DEFAULT" />
+	        </intent-filter>
+	    </activity>
+	    
+	    <activity
+	        android:name="com.ham.activity.ImageShowActivity"
+	        android:label="@string/app_name"
+	        android:parentActivityName="com.ham.activity.DetailNoteActivity" >
+	        <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.ham.activity.DetailNoteActivity" />
+    	</activity>
+	    
+    	<receiver android:name="com.ham.dialog.RestartReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
+    	</receiver>
+    	
     </application>
 
 </manifest>

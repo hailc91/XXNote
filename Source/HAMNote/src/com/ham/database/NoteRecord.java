@@ -1,7 +1,6 @@
 package com.ham.database;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +18,6 @@ public class NoteRecord {
 	public NoteRecord(String title, String content, String img,String date ,int theme, int isImportant){
 		String timeStamp = new SimpleDateFormat("yyMMddhhmmssSSSSSS").format(Calendar.getInstance().getTime());
 		this.ID = timeStamp;
-		Log.d("Value of ID", ID);
 		this.TITLE = title;
 		this.CONTENT = content;
 		this.IMAGE = img;
