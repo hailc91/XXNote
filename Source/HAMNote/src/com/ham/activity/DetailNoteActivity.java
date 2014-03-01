@@ -60,7 +60,7 @@ public class DetailNoteActivity extends Activity {
 	private  DialogHandle dialogHandle = new DialogHandle(this);
 	private String[] imagePath;
 	// contain current images path
-	private static String imageRaw = "";
+	private String imageRaw = "";
 	private GridView grid;
 	private boolean addImageCalled;
 	private int screenWidth;
@@ -91,8 +91,7 @@ public class DetailNoteActivity extends Activity {
 		Point size = new Point();
 		display.getSize(size);
 		screenWidth = size.x;
-		screenHeight = size.y;
-        
+		screenHeight = size.y;        
         
 		Intent i = getIntent();
         isUpdate = (Integer)i.getExtras().getInt("update");
@@ -103,9 +102,7 @@ public class DetailNoteActivity extends Activity {
         {
         	themeStyle = (String)i.getExtras().getString("themestyle");
         	fontStyle = (String)i.getExtras().getString("fontstyle");
-        	fontSize = (Integer)i.getExtras().getInt("fontsize");
-        	
-        	
+        	fontSize = (Integer)i.getExtras().getInt("fontsize");        	
         }
         database.open();
         
@@ -149,9 +146,10 @@ public class DetailNoteActivity extends Activity {
     	Typeface tf3 = Typeface.createFromAsset(getAssets(),"fonts/optimaregular.ttf");
     	
     	content.setBackgroundColor(Color.WHITE);
-    	content.getBackground().setAlpha(100);
+    	content.getBackground().setAlpha(75);
     	title.setBackgroundColor(Color.WHITE);
-    	title.getBackground().setAlpha(90);
+    	title.getBackground().setAlpha(95);
+    	title.setWidth(screenWidth-150);
     	//Layout
     	if(themeStyle.equals("Spring")){
     		layout.setBackgroundResource(R.drawable.spring);
@@ -297,7 +295,6 @@ public class DetailNoteActivity extends Activity {
     		chooseTimer = false;
     		
     	}
-    	// for (String path)
     	
     }
     
@@ -307,8 +304,8 @@ public class DetailNoteActivity extends Activity {
 			saveNote();			
 			Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
 			database.close();
-			Intent i = new Intent(getBaseContext(),HAMNoteActivity.class);
-			startActivity(i);
+			/*Intent i = new Intent(getBaseContext(),HAMNoteActivity.class);
+			startActivity(i);*/
 			this.finish();
 		}		
 	}
@@ -367,7 +364,7 @@ public class DetailNoteActivity extends Activity {
             break;
             
         case R.id.detailmenu_lock:
-        	Toast.makeText(getBaseContext(), "Please buy PRO version to use LOCK function",Toast.LENGTH_SHORT).show();
+        	Toast.makeText(getBaseContext(), "Please buy PRO version to use LOCK function", Toast.LENGTH_LONG).show();
             break;
             
         case R.id.detailmenu_addimage:
@@ -409,7 +406,6 @@ public class DetailNoteActivity extends Activity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
     	super.onCreateContextMenu(menu, v, menuInfo);
-    	//menu.setHeaderTitle("Context Menu");  
     	menu.add(0, v.getId(), 0, "Remove");   
     }
     
@@ -470,6 +466,9 @@ public class DetailNoteActivity extends Activity {
     			this.deleteFile(deletedImage);
     		}
     		deletedImage = "";
+    	} else {
+    		imagePath = imageRaw.split(":");
+    		grid.setAdapter(new ImageAdapter(this, imagePath));
     	}
     	
     }

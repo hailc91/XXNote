@@ -32,6 +32,8 @@ public class HAMNoteActivity extends Activity {
 	private int noteNum = 0;
 	private boolean gridViewCalled;
 	private DialogHandle dialogHandle = new DialogHandle(this);
+	private Menu hamMenu;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +63,16 @@ public class HAMNoteActivity extends Activity {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.note_delete:
+        	gridViewCalled = false;
         	Intent k = new Intent (getBaseContext(),DeleteNoteActivity.class);
         	startActivity(k);
         	return true;
         case R.id.note_add:
+        	gridViewCalled = false;
         	showDialog(dialogHandle.THEME_ID);
+            return true;
+        case R.id.note_about:
+        	dialogHandle.DialogProcess(dialogHandle.ABOUT).show();
             return true;
         default:
             return super.onOptionsItemSelected(item);
@@ -76,6 +83,7 @@ public class HAMNoteActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.hamnote, menu);
+        this.hamMenu = menu;
         return true;
     }
     
@@ -83,7 +91,11 @@ public class HAMNoteActivity extends Activity {
     protected void onResume()
     {
     	super.onResume();
-    	if(!gridViewCalled) { database.open(); createGridView(); }
+    	if(!gridViewCalled) {
+    		database.open();
+    		createGridView();
+    		hamMenu.findItem(R.id.note_num).setTitle(Integer.toString(noteNum));
+    	}
     }
     
     @Override
@@ -92,12 +104,6 @@ public class HAMNoteActivity extends Activity {
     	super.onStop();
     	database.close();
     }
-    
-    /*@Override
-    public void onDestroy()
-    {
-    	database.close();
-    }*/
     
     private void createGridView()	// display notes on grid view
     {  	
@@ -116,7 +122,8 @@ public class HAMNoteActivity extends Activity {
                 i.putExtra("update", 1);
                 startActivity(i);
 			}
-        });
+        }); 	
+    	
     }
     
     @Override

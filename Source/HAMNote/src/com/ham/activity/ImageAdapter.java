@@ -15,7 +15,7 @@ public class ImageAdapter extends BaseAdapter
 {
 	private Context context;
 	private String[] imagePath;
-	private int vSpace = 3;
+	private int vSpace = 8;
 	
 	public ImageAdapter(Context c, String[] iPath)
 	{
@@ -56,8 +56,10 @@ public class ImageAdapter extends BaseAdapter
         Drawable d = new BitmapDrawable(context.getResources(), bm);
 		ImageView iView = new ImageView(context);
 		iView.setLayoutParams(new GridView.LayoutParams(parent.getWidth()/3-vSpace*2, parent.getWidth()/3-vSpace*2));
-		iView.setImageDrawable(d);
-		iView.setScaleType(ImageView.ScaleType.CENTER_CROP);		
+		//iView.setPadding(4, 4, 4, 4);
+		iView.setImageDrawable(d);		
+		iView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		iView.setAlpha((float)0.85);
 		return iView;
 	}
 

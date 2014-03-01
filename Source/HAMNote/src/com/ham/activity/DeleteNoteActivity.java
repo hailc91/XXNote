@@ -11,7 +11,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+//import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -107,8 +107,8 @@ public class DeleteNoteActivity extends ListActivity {
 				    		Log.d("Success", Integer.toString(result));
 				    		checkedItemPositions.clear();
 				    	    adapter.notifyDataSetChanged();
-				    	    Intent k = new Intent (getBaseContext(),HAMNoteActivity.class);
-				        	startActivity(k);
+				    	    /*Intent k = new Intent (getBaseContext(),HAMNoteActivity.class);
+				        	startActivity(k);*/
 
 						}
 					  })

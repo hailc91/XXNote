@@ -24,36 +24,39 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f050000;
         public static final int activity_vertical_margin=0x7f050001;
+        public static final int zero_margin=0x7f050002;
     }
     public static final class drawable {
-        public static final int autumn=0x7f020000;
-        public static final int font_36x36=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int image_add_36x36=0x7f020003;
-        public static final int lock_icon_36x36=0x7f020004;
-        public static final int lock_icon_green_36x36=0x7f020005;
-        public static final int lock_icon_grey_36x36=0x7f020006;
-        public static final int locked_icon_36x36=0x7f020007;
-        public static final int menu_selector=0x7f020008;
-        public static final int music_icon_green_36x36=0x7f020009;
-        public static final int music_icon_grey_36x36=0x7f02000a;
-        public static final int note_add_36x36=0x7f02000b;
-        public static final int note_container_icon_200x100=0x7f02000c;
-        public static final int note_delete_36x36=0x7f02000d;
-        public static final int note_important_container_icon_200x100=0x7f02000e;
-        public static final int save_icon_36x36=0x7f02000f;
-        public static final int spring=0x7f020010;
-        public static final int star_blank_36x36=0x7f020011;
-        public static final int star_filled_36x36=0x7f020012;
-        public static final int star_grey_36x36=0x7f020013;
-        public static final int star_yellow_36x36=0x7f020014;
-        public static final int summer=0x7f020015;
-        public static final int template_icon_36x36=0x7f020016;
-        public static final int timer_icon_36x36=0x7f020017;
-        public static final int timer_icon_green_36x36=0x7f020018;
-        public static final int timer_icon_grey_36x36=0x7f020019;
-        public static final int timer_set_icon_36x36=0x7f02001a;
-        public static final int winter=0x7f02001b;
+        public static final int ahm=0x7f020000;
+        public static final int autumn=0x7f020001;
+        public static final int b10x10=0x7f020002;
+        public static final int font_36x36=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int image_add_36x36=0x7f020005;
+        public static final int lock_icon_36x36=0x7f020006;
+        public static final int lock_icon_green_36x36=0x7f020007;
+        public static final int lock_icon_grey_36x36=0x7f020008;
+        public static final int locked_icon_36x36=0x7f020009;
+        public static final int menu_selector=0x7f02000a;
+        public static final int music_icon_green_36x36=0x7f02000b;
+        public static final int music_icon_grey_36x36=0x7f02000c;
+        public static final int note_add_36x36=0x7f02000d;
+        public static final int note_container_icon_200x100=0x7f02000e;
+        public static final int note_delete_36x36=0x7f02000f;
+        public static final int note_important_container_icon_200x100=0x7f020010;
+        public static final int save_icon_36x36=0x7f020011;
+        public static final int spring=0x7f020012;
+        public static final int star_blank_36x36=0x7f020013;
+        public static final int star_filled_36x36=0x7f020014;
+        public static final int star_grey_36x36=0x7f020015;
+        public static final int star_yellow_36x36=0x7f020016;
+        public static final int summer=0x7f020017;
+        public static final int template_icon_36x36=0x7f020018;
+        public static final int timer_icon_36x36=0x7f020019;
+        public static final int timer_icon_green_36x36=0x7f02001a;
+        public static final int timer_icon_grey_36x36=0x7f02001b;
+        public static final int timer_set_icon_36x36=0x7f02001c;
+        public static final int winter=0x7f02001d;
     }
     public static final class id {
         public static final int ChooseFont=0x7f0a0005;

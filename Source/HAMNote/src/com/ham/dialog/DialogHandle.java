@@ -31,6 +31,7 @@ public class DialogHandle {
 	public final int SONG_DIAGLOG_ID = 1;
 	public final int IMAGE_DIAGLOG_ID = 2;
 	public final int THEME_ID = 3;
+	public final int ABOUT = 4;
 	public Bitmap BITMAP_IMAGE;
 	private Dialog dialog;
 	
@@ -240,11 +241,27 @@ public class DialogHandle {
 			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 			dialog.setContentView(R.layout.imageshow);
 			ImageView image_frame = (ImageView) dialog.findViewById(R.id.image_show);
-			Drawable d = new BitmapDrawable(context.getResources(),BITMAP_IMAGE);
-			//image_frame.setBackground(d);
-			image_frame.setImageDrawable(d);
-			dialog.getWindow().setBackgroundDrawable(null);
+			if(BITMAP_IMAGE!=null)
+			{
+				Drawable d = new BitmapDrawable(context.getResources(),BITMAP_IMAGE);
+				image_frame.setImageDrawable(d);
+				dialog.getWindow().setBackgroundDrawable(null);
+			}			
 			image_frame.setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+			return dialog;
+			
+		case ABOUT:
+			dialog = new Dialog(context);
+			dialog.setTitle("AHM Group");
+			dialog.setContentView(R.layout.imageshow);
+			ImageView image_about = (ImageView) dialog.findViewById(R.id.image_show);
+			image_about.setImageResource(R.drawable.ahm);
+			image_about.setOnClickListener(new View.OnClickListener() {				
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();
