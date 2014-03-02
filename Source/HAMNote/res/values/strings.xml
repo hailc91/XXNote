@@ -21,6 +21,13 @@
     <string name="default_title_remain_character">40</string>
     <string name="des_saveButton">Save</string>
     <string name="lblBtnDel">Delete Selected Notes</string>
+    
+    <string name="leducanh">Lê Đức Anh</string>
+    <string name="lamchihai">Lâm Chí Hải</string>
+    <string name="nguyenhoangminh">Nguyễn Hoàng Minh</string>
+    <string name="mssv1">51000050</string>
+    <string name="mssv2">51000843</string>
+    <string name="mssv3">51001955</string>
 
      <string-array name="themestyle">
         <item>Spring</item>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/about_layout_relative"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    android:paddingTop="0dp" >
+
+    <TextView
+        android:id="@+id/author1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/leducanh" />
+
+    <TextView
+        android:id="@+id/author2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/author1"
+        android:layout_below="@+id/author1"
+        android:layout_marginTop="10dp"
+        android:text="@string/lamchihai" />
+
+    <TextView
+        android:id="@+id/author3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/author2"
+        android:layout_below="@+id/author2"
+        android:layout_marginTop="10dp"
+        android:text="@string/nguyenhoangminh" />
+
+    <TextView
+        android:id="@+id/mssv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/author3"
+        android:layout_alignBottom="@+id/author3"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/author3"
+        android:text="@string/mssv3" />
+
+    <TextView
+        android:id="@+id/mssv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/author2"
+        android:layout_alignLeft="@+id/mssv3"
+        android:text="@string/mssv2" />
+
+    <TextView
+        android:id="@+id/mssv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/author1"
+        android:layout_alignLeft="@+id/mssv2"
+        android:text="@string/mssv1" />
+
+</RelativeLayout>

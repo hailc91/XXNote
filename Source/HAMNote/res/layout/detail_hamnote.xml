@@ -1,16 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>    
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detail_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:overScrollMode="always"
     android:paddingBottom="@dimen/zero_margin"
     android:paddingLeft="@dimen/zero_margin"
     android:paddingRight="@dimen/zero_margin"
     android:paddingTop="@dimen/zero_margin"
+    android:scrollbars="vertical"
     tools:context=".DetailNoteActivity" >
 
     <EditText
@@ -48,7 +50,8 @@
         android:ems="10"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:inputType="text|textMultiLine|textNoSuggestions" />
+        android:inputType="text|textMultiLine|textNoSuggestions"
+        android:scrollbars="vertical" />
 
     <ImageButton
         android:id="@+id/detail_saveButton"
@@ -68,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/detail_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
@@ -79,6 +82,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="0dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbarStyle="outsideOverlay"
         android:verticalSpacing="3dp" >
 

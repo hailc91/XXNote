@@ -14,7 +14,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+//import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -22,6 +22,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -167,7 +168,7 @@ public class DialogHandle {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					Log.d("Get string", themeStyle+" "+fontStyle+" "+fontSize);
+					//Log.d("Get string", themeStyle+" "+fontStyle+" "+fontSize);
 					dialog.dismiss();
 					Intent i = new Intent(context, DetailNoteActivity.class);
 		            i.putExtra("update", Long.valueOf(0));
@@ -261,10 +262,10 @@ public class DialogHandle {
 		case ABOUT:
 			dialog = new Dialog(context);
 			dialog.setTitle("AHM Group");
-			dialog.setContentView(R.layout.imageshow);
-			ImageView image_about = (ImageView) dialog.findViewById(R.id.image_show);
-			image_about.setImageResource(R.drawable.ahm);
-			image_about.setOnClickListener(new View.OnClickListener() {				
+			dialog.setContentView(R.layout.aboutlayout);
+			RelativeLayout rLayout = (RelativeLayout) dialog.findViewById(R.id.about_layout_relative);
+			//image_about.setImageResource(R.drawable.ahm);
+			rLayout.setOnClickListener(new View.OnClickListener() {				
 				@Override
 				public void onClick(View v) {
 					dialog.dismiss();

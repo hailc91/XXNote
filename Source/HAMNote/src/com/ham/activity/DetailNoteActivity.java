@@ -3,14 +3,18 @@ package com.ham.activity;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Random;
 
 import com.example.hamnote.R;
 import com.ham.database.*;
 
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,6 +29,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.text.Editable;
@@ -62,11 +67,12 @@ public class DetailNoteActivity extends Activity {
 	private String[] imagePath;
 	// contain current images path
 	private String imageRaw = "";
+	private final String IMAGERAW_STORAGE = "updatedImgRaw";
 	private GridView grid;
 	private boolean addImageCalled;
 	private int screenWidth;
 	private int screenHeight;
-	private String deletedImage = "";
+	private  List<String> deleteImageList = new ArrayList<String>();
 
 	private int isUpdate = 0;
 	private String themeStyle = "", fontStyle = "";
@@ -107,6 +113,9 @@ public class DetailNoteActivity extends Activity {
 
 		createDetail();
 		addImageCalled = false;
+		if(savedInstanceState!=null){
+			imageRaw = savedInstanceState.getString(IMAGERAW_STORAGE);
+		}
 		createImageGrid();
 	}
 
@@ -116,6 +125,13 @@ public class DetailNoteActivity extends Activity {
 		getMenuInflater().inflate(R.menu.detailnote, menu);
 		this.detailMenu = menu;
 		return true;
+	}	
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		outState.putString(IMAGERAW_STORAGE, imageRaw);
 	}
 
 	@Override
@@ -145,10 +161,11 @@ public class DetailNoteActivity extends Activity {
 		Typeface tf2 = Typeface.createFromAsset(getAssets(),
 				"fonts/cariardreams.ttf");
 		Typeface tf3 = Typeface.createFromAsset(getAssets(),
-				"fonts/optimaregular.ttf");
-
+				"fonts/optimaregular.ttf");		
+		
 		content.setBackgroundColor(Color.WHITE);
 		content.getBackground().setAlpha(75);
+		content.setMaxHeight(400);
 		title.setBackgroundColor(Color.WHITE);
 		title.getBackground().setAlpha(95);
 		title.setWidth(screenWidth - 150);
@@ -335,13 +352,26 @@ public class DetailNoteActivity extends Activity {
 		}
 		chooseTimer = false;
 		chooseSong = false;
-
+		
+		// delete images
+		
+		if(deleteImageList.size()>0) {
+			String[] iArr = new String[deleteImageList.size()];
+			deleteImageList.toArray(iArr);
+			for(String p: iArr){
+				if (p != "") {
+					String ip = p;
+					String contextFilesPath = this.getFilesDir().getPath();
+					ip = ip.replace(contextFilesPath + "/", "");
+					this.deleteFile(ip);
+				}
+			}
+		}
 	}
 
 	public void onButtonClicked(View v) {
 		if (v.getId() == R.id.detail_saveButton) {
 			saveNote();
-			Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
 			database.close();
 			/*
 			 * Intent i = new Intent(getBaseContext(),HAMNoteActivity.class);
@@ -406,7 +436,7 @@ public class DetailNoteActivity extends Activity {
 
 		case R.id.detailmenu_lock:
 			Toast.makeText(getBaseContext(),
-					"Please buy PRO version to use LOCK function",
+					"Please buy PRO version to unlock this function ^^",
 					Toast.LENGTH_LONG).show();
 			break;
 
@@ -420,7 +450,7 @@ public class DetailNoteActivity extends Activity {
 			break;
 
 		default:
-			database.close();
+			database.close();	
 			this.finish();
 			break;
 		}
@@ -473,7 +503,8 @@ public class DetailNoteActivity extends Activity {
 			} else {
 				imageRaw = imageRaw.replace("::", ":");
 			}
-			deletedImage = imagePath[info.position];
+			
+			deleteImageList.add(imagePath[info.position]);
 			createImageGrid();
 		}
 		return true;
@@ -513,25 +544,47 @@ public class DetailNoteActivity extends Activity {
 					String img = imagePath[(int) arg3];
 					final BitmapFactory.Options options = new BitmapFactory.Options();
 					options.inSampleSize = 1;
+					Bitmap bmImg = BitmapFactory.decodeFile(img, options);
+					try {						
+						ExifInterface exif = new ExifInterface(img);
+						int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);						
+						switch(orientation){
+							case ExifInterface.ORIENTATION_ROTATE_90:
+								bmImg = ccw(bmImg, 90);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_270:
+								bmImg = ccw(bmImg, 270);
+								break;
+							case ExifInterface.ORIENTATION_ROTATE_180:
+								bmImg = ccw(bmImg, 180);
+								break;
+							default:
+								break;
+						}						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						// e.printStackTrace();
+					}
 					// Create dialog
-					dialogHandle.setImage(BitmapFactory
-							.decodeFile(img, options));
-					dialogHandle.DialogProcess(dialogHandle.IMAGE_DIAGLOG_ID)
-							.show();
+					dialogHandle.setImage(bmImg);
+					dialogHandle.DialogProcess(dialogHandle.IMAGE_DIAGLOG_ID).show();
 				}
 			});
 
-			// delete image from internal storage
-			if (deletedImage != "") {
-				deletedImage = deletedImage.replace(contextFilesPath + "/", "");
-				this.deleteFile(deletedImage);
-			}
-			deletedImage = "";
 		} else {
 			imagePath = imageRaw.split(":");
 			grid.setAdapter(new ImageAdapter(this, imagePath));
 		}
 
+	}
+	
+	private Bitmap ccw(Bitmap b, int r)
+	{
+		Matrix m = new Matrix();
+		m.postRotate(r);
+		int w = b.getWidth();
+		int h = b.getHeight();
+		return Bitmap.createBitmap(b, 0, 0, w, h, m, true);
 	}
 
 	private String writeFileToInternalStorage(Context context, String path,
@@ -560,10 +613,22 @@ public class DetailNoteActivity extends Activity {
 			bm.compress(Bitmap.CompressFormat.JPEG, 30, fos);
 			File cacheDir = context.getFilesDir();
 			String newpath = cacheDir.getPath() + "/" + fileName;
+			
+			// set exifinterface for new image
+			try {
+				ExifInterface oldExif = new ExifInterface(path);
+				ExifInterface newExif = new ExifInterface(newpath);
+				int oldOrientation = oldExif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+				newExif.setAttribute(ExifInterface.TAG_ORIENTATION, Integer.toString(oldOrientation));
+				newExif.saveAttributes();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				// e.printStackTrace();
+			}	
 			return newpath;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		return "";
 	}

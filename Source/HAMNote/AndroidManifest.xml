@@ -16,7 +16,8 @@
         <activity
             android:name="com.ham.activity.HAMNoteActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppThemeWithoutActionBarTitle" >
+            android:theme="@style/AppThemeWithoutActionBarTitle"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +29,8 @@
 	        android:name="com.ham.activity.DetailNoteActivity"
 	        android:label="@string/app_name"
 	        android:parentActivityName="com.ham.activity.HAMNoteActivity"
-	        android:windowSoftInputMode="stateHidden" >
+	        android:windowSoftInputMode="stateHidden"
+	        android:screenOrientation="portrait" >
 	        <meta-data
 	            android:name="android.support.PARENT_ACTIVITY"
 	            android:value="com.ham.activity.HAMNoteActivity" />
@@ -44,14 +46,6 @@
 	        </intent-filter>
 	    </activity>
 	    
-	    <activity
-	        android:name="com.ham.activity.ImageShowActivity"
-	        android:label="@string/app_name"
-	        android:parentActivityName="com.ham.activity.DetailNoteActivity" >
-	        <meta-data
-	            android:name="android.support.PARENT_ACTIVITY"
-	            android:value="com.ham.activity.DetailNoteActivity" />
-    	</activity>
     	<activity
             android:name="com.ham.activity.DeleteNoteActivity"
             android:label="@string/app_name"

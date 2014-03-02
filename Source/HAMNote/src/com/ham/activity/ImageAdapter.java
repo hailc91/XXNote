@@ -1,10 +1,14 @@
 package com.ham.activity;
 
+import java.io.IOException;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -34,33 +38,46 @@ public class ImageAdapter extends BaseAdapter
 	
 	@Override
 	public View getView(int pos, View convertView, ViewGroup parent)
-	{					
-		/*ImageView iView;
-		BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 12;
-        
-		if (convertView == null) { // if it's not recycled, initialize some attributes
-			iView = new ImageView(context);					
-			iView.setLayoutParams(new GridView.LayoutParams(parent.getWidth()/3-vSpace*2, parent.getWidth()/3-vSpace*2));
-			iView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		} else {
-			iView = (ImageView) convertView;
-        }
-		
-		iView.setImageBitmap(BitmapFactory.decodeFile(getItem(pos), options));
-		return iView;*/
-		
-		BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
-        Bitmap bm = BitmapFactory.decodeFile(getItem(pos), options);
-        Drawable d = new BitmapDrawable(context.getResources(), bm);
+	{		
 		ImageView iView = new ImageView(context);
+		BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 4; 
+		Bitmap bm = BitmapFactory.decodeFile(getItem(pos), options);
+		try{		       
+	        // rotate image if it is rotated
+	        ExifInterface exif = new ExifInterface(getItem(pos));
+			int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);			
+			switch(orientation){
+				case ExifInterface.ORIENTATION_ROTATE_90:
+					bm = ccw(bm, 90);
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_270:
+					bm = ccw(bm, 270);
+					break;
+				case ExifInterface.ORIENTATION_ROTATE_180:
+					bm = ccw(bm, 180);
+					break;
+				default:
+					break;
+			}   	
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Drawable d = new BitmapDrawable(context.getResources(), bm);		
 		iView.setLayoutParams(new GridView.LayoutParams(parent.getWidth()/3-vSpace*2, parent.getWidth()/3-vSpace*2));
-		//iView.setPadding(4, 4, 4, 4);
 		iView.setImageDrawable(d);		
 		iView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		iView.setAlpha((float)0.85);
 		return iView;
 	}
-
+	
+	private Bitmap ccw(Bitmap b, int r)
+	{
+		Matrix m = new Matrix();
+		m.postRotate(r);
+		int w = b.getWidth();
+		int h = b.getHeight();
+		return Bitmap.createBitmap(b, 0, 0, w, h, m, true);
+	}
 }
