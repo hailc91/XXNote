@@ -98,12 +98,12 @@ public class DatabaseAdapter {
 	//Use to update all data
 	public void UpdateToNoteTbl(String ID,NoteRecord r ){
 		ContentValues values = new ContentValues();
-		values.put("ID", r.ID);
+		//values.put("ID", r.ID);
 		values.put("TITLE", r.TITLE);
 		values.put("CONTENT", r.CONTENT);
 		values.put("IMAGE", r.IMAGE);
 		values.put("DATE", r.DATE);
-		values.put("THEMEID", r.THEMEID);
+		//values.put("THEMEID", r.THEMEID);
 		values.put("ISIMPORTANT", r.ISIMPORTANT);
 		database.update("NOTETBL", values, "ID=?", new String[]{ID});
 	}

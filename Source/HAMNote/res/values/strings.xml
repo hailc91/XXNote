@@ -34,8 +34,8 @@
         <item>Caviar Dreams font</item>
     </string-array>
      <string-array name="fontsize">
+        <item>18</item>
+        <item>20</item>
         <item>22</item>
-        <item>24</item>
-        <item>26</item>
     </string-array>
 </resources>

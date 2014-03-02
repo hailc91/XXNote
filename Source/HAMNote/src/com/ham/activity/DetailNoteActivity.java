@@ -69,7 +69,7 @@ public class DetailNoteActivity extends Activity {
 	
 	private int isUpdate = 0;
 	private String themeStyle ="", fontStyle="";
-	private int fontSize = 22;
+	private int fontSize = 20;
 	private RelativeLayout layout;
 	
 	private static int RESULT_LOAD_IMAGE = 1;
@@ -294,6 +294,16 @@ public class DetailNoteActivity extends Activity {
     		SetAlert(id);
     		chooseTimer = false;
     		
+    	}
+    	if(!importantTurnedOn && isUpdate == 1){
+    		ImportantRecord ir = database.GetImportantRecord(nNote.ID);
+    		if(ir!=null){
+				Intent k = new Intent("com.ham.activity.AlertActivity");
+				PendingIntent operation = PendingIntent.getActivity(getBaseContext(), ir.CODE, k, Intent.FLAG_ACTIVITY_NEW_TASK);
+				AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
+				alarmManager.cancel(operation);
+				database.DeleteImportantRecord(ir.ID);
+    		}
     	}
     	
     }

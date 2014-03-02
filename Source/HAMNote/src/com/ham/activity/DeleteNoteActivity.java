@@ -2,15 +2,19 @@ package com.ham.activity;
 
 import com.example.hamnote.R;
 import com.ham.database.DatabaseAdapter;
+import com.ham.database.ImportantRecord;
 import com.ham.database.NoteRecord;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 //import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,7 +103,19 @@ public class DeleteNoteActivity extends ListActivity {
 				    			if(checkedItemPositions.get(i)){	    				
 				    				adapter.remove(lists.get(i).getName());
 				    				database.open();
+				    				NoteRecord r= database.GetNoteRecord(lists.get(i).getid());
 				    				result = database.DeleteRecordFromNoteTbl(lists.get(i).getid());
+				    				if(r!=null){
+				    					database.DeleteThemeRecord(r.THEMEID);
+				    					if(r.ISIMPORTANT == 1){
+				    						ImportantRecord ir = database.GetImportantRecord(r.ID);
+				    						Intent k = new Intent("com.ham.activity.AlertActivity");
+				    						PendingIntent operation = PendingIntent.getActivity(getBaseContext(), ir.CODE, k, Intent.FLAG_ACTIVITY_NEW_TASK);
+				    						AlarmManager alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
+				    						alarmManager.cancel(operation);
+				    						database.DeleteImportantRecord(r.ID);
+				    					}
+				    				}
 				        			database.close();
 				        			
 				    			}
