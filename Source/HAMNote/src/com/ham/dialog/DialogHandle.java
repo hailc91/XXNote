@@ -42,6 +42,7 @@ public class DialogHandle {
 	public String themeStyle;
 	public String fontStyle;
 	public int fontSize;
+	public boolean chooseTime = false, chooseSong =false;
 	public boolean isOk = false;
 	private final CharSequence[] listSong = {"Beautiful in white","Because you live","Chờ mưa mang em về"
 			,"Em của ngày hôm qua","Song for love","What are words"};
@@ -122,6 +123,7 @@ public class DialogHandle {
 					vYear = datePicker.getYear();
 					vHour = timePicker.getCurrentHour();
 					vMinute = timePicker.getCurrentMinute();
+					chooseTime = true;
 					dialog.dismiss();
 					
 				}
@@ -142,6 +144,7 @@ public class DialogHandle {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					songName = which;
+					chooseSong =true;
 					//Toast.makeText(context, which,Toast.LENGTH_SHORT);
 				}
 			});
