@@ -3,7 +3,7 @@ package com.ham.activity;
 import com.ham.dialog.DialogAlert;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
+//import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 

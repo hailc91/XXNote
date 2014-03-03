@@ -1,6 +1,6 @@
 package com.ham.dialog;
 import com.example.hamnote.R;
-import com.ham.database.DatabaseAdapter;
+//import com.ham.database.DatabaseAdapter;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,7 +17,7 @@ public class DialogAlert extends DialogFragment{
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {		
 		int songID = getArguments().getInt("SongID");
-		final int CODE = getArguments().getInt("CODE");		
+		//final int CODE = getArguments().getInt("CODE");		
 		switch(songID){
 			case 0:
 				player = MediaPlayer.create(getActivity(), R.raw.beautifulinwhite);

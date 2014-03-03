@@ -72,7 +72,9 @@ public class DetailNoteActivity extends Activity {
 	private boolean addImageCalled;
 	private int screenWidth;
 	private int screenHeight;
-	private  List<String> deleteImageList = new ArrayList<String>();
+	private List<String> deleteImageList = new ArrayList<String>();
+	private List<String> unSaveImages = new ArrayList<String>();
+	private boolean saveClicked = false;
 
 	private int isUpdate = 0;
 	private String themeStyle = "", fontStyle = "";
@@ -129,7 +131,6 @@ public class DetailNoteActivity extends Activity {
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
 		outState.putString(IMAGERAW_STORAGE, imageRaw);
 	}
@@ -151,7 +152,24 @@ public class DetailNoteActivity extends Activity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		database.close();
+		database.close();		
+	}	
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if(!saveClicked && unSaveImages.size()>0) {
+			String[] iArr = new String[unSaveImages.size()];
+			unSaveImages.toArray(iArr);
+			for(String p: iArr){
+				if (p != "") {
+					String ip = p;	
+					String contextFilesPath = this.getFilesDir().getPath();
+					ip = ip.replace(contextFilesPath + "/", "");
+					this.deleteFile(ip);					
+				}
+			}
+		}
 	}
 
 	private void InitGui() {
@@ -360,13 +378,15 @@ public class DetailNoteActivity extends Activity {
 			deleteImageList.toArray(iArr);
 			for(String p: iArr){
 				if (p != "") {
-					String ip = p;
+					String ip = p;	
 					String contextFilesPath = this.getFilesDir().getPath();
 					ip = ip.replace(contextFilesPath + "/", "");
 					this.deleteFile(ip);
 				}
 			}
 		}
+		
+		saveClicked = true;
 	}
 
 	public void onButtonClicked(View v) {
@@ -451,6 +471,18 @@ public class DetailNoteActivity extends Activity {
 
 		default:
 			database.close();	
+			if(unSaveImages.size()>0) {
+				String[] iArr = new String[unSaveImages.size()];
+				unSaveImages.toArray(iArr);
+				for(String p: iArr){
+					if (p != "") {
+						String ip = p;	
+						String contextFilesPath = this.getFilesDir().getPath();
+						ip = ip.replace(contextFilesPath + "/", "");
+						this.deleteFile(ip);
+					}
+				}
+			}
 			this.finish();
 			break;
 		}
@@ -524,8 +556,7 @@ public class DetailNoteActivity extends Activity {
 					// screenWidth, screenHeight);
 					String newPath = writeFileToInternalStorage(this,
 							imagePath[i], screenWidth, screenHeight);
-					if (newPath.length() > 0)
-						imagePath[i] = newPath;
+					if (newPath.length() > 0) { imagePath[i] = newPath; unSaveImages.add(newPath); }					
 				}
 			}
 
@@ -562,7 +593,6 @@ public class DetailNoteActivity extends Activity {
 								break;
 						}						
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						// e.printStackTrace();
 					}
 					// Create dialog
@@ -572,8 +602,8 @@ public class DetailNoteActivity extends Activity {
 			});
 
 		} else {
-			imagePath = imageRaw.split(":");
-			grid.setAdapter(new ImageAdapter(this, imagePath));
+			//imagePath = imageRaw.split(":");
+			grid.setAdapter(new ImageAdapter(this, new String[0]));
 		}
 
 	}
@@ -622,12 +652,10 @@ public class DetailNoteActivity extends Activity {
 				newExif.setAttribute(ExifInterface.TAG_ORIENTATION, Integer.toString(oldOrientation));
 				newExif.saveAttributes();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				// e.printStackTrace();
 			}	
 			return newpath;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			// e.printStackTrace();
 		}
 		return "";
