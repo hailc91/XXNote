@@ -13,12 +13,11 @@ import android.view.WindowManager.LayoutParams;
 
 public class DialogAlert extends DialogFragment{
 	//Context context;
-	
+	MediaPlayer player;
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {		
 		int songID = getArguments().getInt("SongID");
 		final int CODE = getArguments().getInt("CODE");		
-		final  MediaPlayer player;
 		switch(songID){
 			case 0:
 				player = MediaPlayer.create(getActivity(), R.raw.beautifulinwhite);
@@ -51,13 +50,8 @@ public class DialogAlert extends DialogFragment{
 		builder.setPositiveButton("OK", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				player.stop();
-				player.release();
+				//player.stop();
 				//Delete Important after alert	
-				DatabaseAdapter database = new DatabaseAdapter(getActivity());
-				database.open();
-				database.DeleteImportantRecordbyCode(CODE);
-				database.close();
 				getActivity().finish();
 			}			
 		});
@@ -68,6 +62,8 @@ public class DialogAlert extends DialogFragment{
 	@Override
 	public void onDestroy() {		
 		super.onDestroy();
+		player.stop();
+		player.release();
 		getActivity().finish();
 	}
 }

@@ -3,6 +3,7 @@ package com.ham.activity;
 import com.ham.dialog.DialogAlert;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
@@ -20,7 +21,7 @@ public class AlertActivity extends FragmentActivity{
 		args.putInt("SongID", songID);
 		args.putInt("CODE", CODE);
 		alert.setArguments(args);
-		alert.show(getSupportFragmentManager(),"Demo");		
+		alert.show(getSupportFragmentManager(),"Demo");	
 	}
 
 }
